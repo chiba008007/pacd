@@ -1,0 +1,156 @@
+@extends('layouts.app')
+
+@section('title', $title)
+
+@section('content')
+    <div id="page">
+        <div class="header">
+            <h2 class="edit-content" data-column="title">{{ $title }}</h2>
+        </div>
+        <div class="uk-container">
+            @if (session('status'))
+                <div class="uk-alert-success" uk-alert>
+                    <a class="uk-alert-close" uk-close></a>
+                    <p>{{ session('status') }}</p>
+                </div>
+            @endif
+
+            <div class="uk-section-xsmall">
+                <div class="uk-form-horizontal">
+                    <fieldset class="uk-fieldset">
+                        <div>
+                            <div class="uk-form-label">イベント名</div>
+                            <div class="uk-form-controls uk-form-controls-text">{{ $event->name }}</div>
+                        </div>
+                        @if($form['prefix'] != "kyosan_attendee")
+                            <div>
+                                <div class="uk-form-label">開催期間</div>
+                                <div class="uk-form-controls uk-form-controls-text">{{ $event->date_start }}～{{ $event->date_end }}</div>
+                            </div>
+                            <div>
+                                <div class="uk-form-label">開催場所</div>
+                                <div class="uk-form-controls uk-form-controls-text">{{ $event->place }}</div>
+                            </div>
+                        @endif
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="uk-section-xsmall">
+                <div class="uk-form-horizontal">
+                    <fieldset class="uk-fieldset">
+                        <div>
+                            <div class="uk-form-label">参加者番号</div>
+                            <div class="uk-form-controls uk-form-controls-text">{{ sprintf('%010d', $attendee->event_number) }}</div>
+                        </div>
+                        <div class="uk-clearfix">
+                            <div class="uk-form-label">会員番号</div>
+                            <div class="uk-form-controls uk-form-controls-text">
+                            @if($user->type == 1)
+                            非会員
+                            @else
+                            {{ $user->type_number }}
+                            @endif
+                            </div>
+                        </div>
+                        <div class="uk-clearfix">
+                            <div class="uk-form-label">氏名</div>
+                            <div class="uk-form-controls uk-form-controls-text">{{ $user->sei }}　{{ $user->mei }}</div>
+                        </div>
+                        <div class="uk-clearfix">
+                            <div class="uk-form-label">氏名（ふりがな）</div>
+                            <div class="uk-form-controls uk-form-controls-text">{{ $user->sei_kana }}　{{ $user->mei_kana }}</div>
+                        </div>
+
+                        @if($user->type == 3)
+                        <div class="uk-clearfix">
+                            <div class="uk-form-label">法人名</div>
+                            <div class="uk-form-controls uk-form-controls-text">{{ $user->cp_name }}</div>
+                        </div>
+                        @endif
+                        @if($user->type == 4)
+                        <div class="uk-clearfix">
+                            <div class="uk-form-label">所属</div>
+                            <div class="uk-form-controls uk-form-controls-text">{{ $user->busyo }}</div>
+                        </div>
+                        @endif
+                        <div class="uk-clearfix">
+                            <div class="uk-form-label">メールアドレス</div>
+                            <div class="uk-form-controls uk-form-controls-text">{{ $user->email }}</div>
+                        </div>
+
+                        <div class="uk-clearfix" >
+                            <div class="uk-form-label">電話番号</div>
+                            <div class="uk-form-controls uk-form-controls-text">{{ $user->tel }}</div>
+                        </div>
+
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="uk-section-xsmall">
+                <form method="POST" action="{{ route($form['prefix'] . ".update", [$attendee->id]) }}" class="uk-form-horizontal" id="attendee_update_form">
+                    @csrf
+                    @method('put')
+                    <fieldset class="uk-fieldset">
+                        @if($form['prefix'] === "kyosan_attendee")
+                            <div class="uk-clearfix">
+                                <label class="uk-form-label">振込予定日</label>
+                                <div class="uk-form-controls uk-form-controls-text">
+                                    <input type="date" name="paydate" class="uk-input w-50 uk-width-1-5" value="{{ $attendee->paydate }}">
+                                </div>
+                            </div>
+                        @endif
+                        {{-- カスタムインプット項目 --}}
+                        <div class="custom_input_area">
+                        @if($inputs->count())
+                            @include('elements.forms.custom_inputs', [$inputs, 'custom_data' => $attendee->custom_form_data->keyBy('form_input_value_id')])
+                        @endif
+                        </div>
+                        {{-- 参加費用選択 --}}
+                        @if($event->sanka_explain)
+                        <h3>{!! nl2br($event->sanka_explain) !!}</h3>
+                        @endif
+                        @php $joins = $event->event_joins->where('join_status', 1)->where('status', 1) @endphp
+                        @if ($joins->count())
+                            <div class="uk-margin">
+                                <label for="event_join_id" class="uk-form-label">参加料金</label>
+                                <div class="uk-form-contorls uk-grid-small uk-child-width-auto uk-grid">
+                                    <?php
+                                        $explode = explode(",",$attendee->event_join_id_list);
+
+                                    ?>
+                                    @foreach ($joins as $join)
+                                        <?php
+                                            $chk = "";
+                                            if(in_array($join->id,$explode)){
+                                                $chk = "CHECKED";
+                                            }
+                                        ?>
+                                        <div class="uk-width-1-1 uk-margin-small-top">
+                                            <label><input class="uk-checkbox" type="checkbox" name="event_join_id_list[{{ $join->id }}]" value="{{ $join->id }}" {{$chk}}>
+                                                {{ $join->join_name }}：{{ number_format($join->join_price) }}円{{ ($join->join_fee) ? "（懇親会費：" . number_format($join->join_fee) . "円）" : '' }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
+                        @if($event->join_enable == 1)
+                        <div>
+                            <div class="uk-form-label">参加費支払い情報</div>
+                            <div class="uk-form-controls uk-form-controls-text">{{ $attendee->is_paid ? '支払い済み' : '未払い' }}</div>
+                        </div>
+                        @endif
+                        <div class="uk-section-small">
+                            <a href="{{ route('mypage.' .$form['category_prefix']) }}" class="uk-button uk-button-secondary">戻る</a>
+                            <button type="submit" class="uk-button uk-button-primary bg-green">変更</button>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection

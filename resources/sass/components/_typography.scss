@@ -1,0 +1,14 @@
+.text {
+    &-light {
+        color: $light !important;
+    }
+    &-wrap {
+        white-space: initial !important;
+    }
+    &-nowrap {
+        white-space: nowrap !important;
+    }
+    &-dark-green {
+        color: $dark-green !important;
+    }
+}

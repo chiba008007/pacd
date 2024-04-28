@@ -1,0 +1,25 @@
+.bg {
+    &-green {
+        background-color: $green !important;
+    }
+    &-red {
+        background-color: $red !important;
+    }
+    &-dark {
+        background-color: $dark !important;
+    }
+    &-blue {
+        background-color: $blue !important;
+    }
+    &-indigo {
+        background-color: $indigo !important;
+    }
+    &-dark-gray {
+        background-color: $dark-gray !important;
+    }
+    &-white{
+        &:hover{
+            background-color: #ffffff !important;
+        }
+    }
+}

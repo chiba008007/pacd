@@ -1,0 +1,48 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.content {
+    min-height: calc(100% - (#{$navbar-nav-item-height} + #{$footer-height} + 20px + 1px));
+
+    header {
+        box-sizing: border-box;
+        border-bottom: 1px #e5e5e5 solid;
+    }
+}
+
+.content-padder {
+    margin-left: 0;
+}
+
+.footer {
+    min-height: $footer-height;
+    padding: 20px 16px 0;
+}
+
+table {
+    border-collapse: collapse;
+
+    th {
+        text-align: center !important;
+    }
+
+    th, td {
+        border: solid 1px $gray;
+        padding: 10px;
+        vertical-align: middle !important;
+    }
+
+    tbody {
+        th {
+            font-weight: normal;
+        }
+    }
+}
+img.logo{
+    max-height:50px;
+}
+

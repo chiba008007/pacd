@@ -1,0 +1,28 @@
+.border {
+    border: solid 1px $gray !important;
+
+    &-top {
+        border-top: solid 1px $gray !important;
+    }
+    &-right {
+        border-right: solid 1px $gray !important;
+    }
+    &-bottom {
+        border-bottom: solid 1px $gray !important;
+    }
+    &-left {
+        border-left: solid 1px $gray !important;
+    }
+    &-green {
+        border-color: $green !important;
+    }
+    &-gray {
+        border-color: $gray !important;
+    }
+    &-light-gray {
+        border-color: $light-gray !important;
+    }
+    &-none {
+        border: none !important;
+    }
+}

@@ -1,0 +1,10 @@
+#editor {
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  width: 650px; }
+
+#tinymce {
+  padding: 20px; }
+
+/*# sourceMappingURL=editor.css.map */

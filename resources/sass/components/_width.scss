@@ -1,0 +1,35 @@
+.width {
+    &-medium {
+        width: $width-medium !important;
+    }
+    &-min-xsmall {
+        min-width: $width-xsmall !important;
+    }
+    &-min-small {
+        min-width: $width-small !important;
+    }
+    &-min-medium {
+        min-width: $width-medium !important;
+    }
+    &-min-large {
+        min-width: $width-large !important;
+    }
+    &-min-xlarge {
+        min-width: $width-xlarge !important;
+    }
+    &-min-2xlarge {
+        min-width: $width-2xlarge !important;
+    }
+    &-max-medium {
+        max-width: $width-medium !important;
+    }
+    &-max-large {
+        max-width: $width-large !important;
+    }
+    &-max-xlarge {
+        max-width: $width-xlarge !important;
+    }
+    &-max-2xlarge {
+        max-width: $width-2xlarge !important;
+    }
+}
