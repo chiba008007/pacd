@@ -96,7 +96,7 @@ p{
 <body>
     @for($i=0;$i<$outputtype;$i++)
         @if($i == 1)
-        <div class="area" style="margin-top:110px;">
+        <div class="area" style="margin-top:50px;">
         @else
         <div class="area" >
         @endif
