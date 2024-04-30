@@ -195,7 +195,7 @@ body {
 
         {!! nl2br($invoice_memo) !!}
     </div>
-    @if($i == 0)
+    @if($i == 0 && $outputtype == 2)
     <div style="page-break-after: always;"></div>
     @endif
     @endfor
