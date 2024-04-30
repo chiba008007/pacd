@@ -95,13 +95,7 @@ p{
 </head>
 <body>
     @for($i=0;$i<$outputtype;$i++)
-        @if($i == 1)
-        <div class="area" style="margin-top:80px;">
-        @else
-        <div class="area" >
-        @endif
-        &nbsp;
-
+    <div class="area" >
         <div class="title" >領　収　書</div>
 
         <div class="right" >{{$date}}</div>
@@ -189,6 +183,9 @@ p{
             {!! nl2br($recipe_memo) !!}
         </div>
     </div>
+    @if($i == 0)
+    <div style="page-break-after: always;"></div>
+    @endif
     @endfor
 </body>
 </html>

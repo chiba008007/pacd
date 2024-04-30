@@ -91,12 +91,7 @@ body {
 </head>
 <body>
     @for($i=0;$i<$outputtype;$i++)
-        @if($i == 1)
-        <div class="area" style="margin-top:110px;">
-        @else
-        <div class="area" >
-        @endif
-        &nbsp;
+    <div class="area" >
         <div class="title" >請　求　書</div>
         <div class="right" >{{$date}}</div>
         <div class="name" >
@@ -199,10 +194,10 @@ body {
         </div>
 
         {!! nl2br($invoice_memo) !!}
-
-
-
     </div>
+    @if($i == 0)
+    <div style="page-break-after: always;"></div>
+    @endif
     @endfor
 </body>
 </html>
