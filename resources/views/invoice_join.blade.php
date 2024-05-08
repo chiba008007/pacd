@@ -192,7 +192,6 @@ body {
                 </div>
             </div>
         </div>
-
         {!! nl2br($invoice_memo) !!}
     </div>
     @if($i == 0 && $outputtype == 2)

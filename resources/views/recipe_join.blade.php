@@ -155,7 +155,13 @@ p{
                 <div class="cell ">税込金額合計</div>
                 <div class="cell textright"></div>
                 <div class="cell">{{count($event_join)}}</div>
-                <div class="cell textright">&yen;{{$price}}</div>
+                <div class="cell textright">
+                 @if($i == 1)
+                    &yen;{{$price2}}
+                @else
+                    &yen;{{$price}}
+                @endif
+                </div>
             </div>
         </div>
 
