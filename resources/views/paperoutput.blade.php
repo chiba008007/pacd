@@ -90,7 +90,7 @@
             {{$user->mei_kana}}
         </div>
         <div class="mt30">
-            <img src="https://chart.apis.google.com/chart?cht=qr&chs=250x250&chl={{$url}}" alt="QRコード" />
+            <img src="https://api.qrserver.com/v1/create-qr-code/?data={{$url}}" alt="QRコード" width=250 />
         </div>
         <div class="mt30">
             参加費：{{$ispaid}}
