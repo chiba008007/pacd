@@ -92,13 +92,7 @@
         <div class="mt30">
             <img src="https://api.qrserver.com/v1/create-qr-code/?data={{$url}}" alt="QRコード" width=250 />
         </div>
-        <div class="mt30">
-            参加費：{{$ispaid}}
-        </div>
-        <!-- 第28回高分子分析討論会でのみ表示 -->
-        @if($event->id == 238 && $attendee->event_join_id_list == 2375)
-        懇親会
-        @endif
+
         <div style="page-break-after: always"></div>
         <div class="mt20">
             <p>
@@ -117,10 +111,7 @@
                 <div class="mt20 f18">
                     {{$user->sei}}
                     {{$user->mei}}
-                    <!-- 第28回高分子分析討論会でのみ表示 -->
-                    @if($event->id == 238 && $attendee->event_join_id_list == 2375)
-                    <div style="text-align:right;">懇親会</div>
-                    @endif
+
                 </div>
                 <div class="bottom">{{$event_number}}</div>
             </div>
