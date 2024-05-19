@@ -103,6 +103,7 @@ class AttendeesController extends Controller
                 $query = $query->orwhere(DB::raw('CONCAT(users.sei,users.mei)'), 'like', '%' . $search . '%');
                 $query = $query->orwhere('users.login_id', 'like', '%' . $search . '%');
                 $query = $query->orwhere('users.email', 'like', '%' . $search . '%');
+                $query = $query->orwhere('users.busyo', 'like', '%' . $search . '%');
                 // $query = $query->orwhere('events.name','like', '%'.$search.'%');
                 if (preg_match("/^[a-zA-Z0-9]+$/", $search)) {
                     $query = $query->orwhere('attendees.event_number', 'like', '%' . (int)$search . '%');

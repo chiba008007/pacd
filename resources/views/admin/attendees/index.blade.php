@@ -19,8 +19,6 @@
                 <div>
                     <input class="uk-input" type="text" name="search" value="{{ old('code',$search)}}" placeholder="氏名・参加者番号で検索">
                 </div>
-            </div>
-            <div class="uk-grid-column-small  uk-child-width-1-3@s " uk-grid>
                 <div>
                     <select name='code' class="uk-select">
                         <option value="0">イベント名の検索</option>
@@ -45,33 +43,37 @@
 
         <input type="hidden" id="currentPath_check" value="{{route('admin.members.docDownloadUpdateAjax')}}" />
         <input type="hidden" id="currentPath_ac" value="{{route('admin.members.docAllCheck')}}" />
-        {{-- ページネーション --}}
-        <div id="pagers" class='uk-margin-top'>
-            {{ $attendees->appends(['search' => $search,'code'=>$code])->links() }}
-        </div>
 
+        <div class="uk-flex">
+            <!-- jsに渡す用 -->
+            <?php $array = "0"; ?>
+            @foreach ($all_attendees as $all_attendee)
+            @php
+            $doc_list[] = $all_attendee->doc_dl;
+            $array = implode(',', $doc_list);
+            @endphp
+            @endforeach
+            <div class="uk-child-width-1-1@s uk-margin-small-top">
+                <div class="uk-flex">
+                    <input type="hidden" id="invoiceStatus" value="{{route('admin.attendees.invoiceStatusDownload',$form['category_prefix'])}}" />
 
-        <!-- jsに渡す用 -->
-        <?php $array = "0"; ?>
-        @foreach ($all_attendees as $all_attendee)
-        @php
-        $doc_list[] = $all_attendee->doc_dl;
-        $array = implode(',', $doc_list);
-        @endphp
-        @endforeach
-        <div class="uk-child-width-1-1@s uk-margin-small-top">
-            <div>
-                <input type="hidden" id="invoiceStatus" value="{{route('admin.attendees.invoiceStatusDownload',$form['category_prefix'])}}" />
+                    <button type="button" class="uk-button uk-button-primary" onClick="invoiceStatus(1)" style="text-wrap:nowrap">
+                        <small>請求書・領収書DL可</small>
+                    </button>
 
-                <button type="button" class="uk-button uk-button-primary" onClick="invoiceStatus(1)">
-                    <small>請求書・領収書ダウンロード可に変更</small>
-                </button>
-
-                <button type="button" class="uk-button uk-button-danger" onClick="invoiceStatus(0)">
-                    <small>請求書・領収書ダウンロード不可に変更</small>
-                </button>
+                    <button type="button" class="uk-button uk-button-danger" onClick="invoiceStatus(0)" style="text-wrap:nowrap">
+                        <small>請求書・領収書DL不可</small>
+                    </button>
+                </div>
+            </div>
+            
+            {{-- ページネーション --}}
+            <div id="pagers" class='uk-margin-top'>
+                {{ $attendees->appends(['search' => $search,'code'=>$code])->links() }}
             </div>
         </div>
+
+
         <div class="uk-overflow-auto uk-margin-small-top" id="scrollheight">
 
             <table id="attendees_table" class="uk-table uk-text-center tablesorter" style="table-layout: fixed;">
@@ -88,6 +90,7 @@
                         <th class="uk-width-small">所属名</th>
                         @endif
                         <th class="uk-width-small">メールアドレス</th>
+                        <th class="uk-width-small">所属列</th>
                         <th class="uk-width-small">
                             <input type="checkbox" id="changedl"><label for="changedl">資料<br>ダウンロード許可</label>
                         </th>
@@ -138,6 +141,7 @@
                         <td>{{ $attendee->user->busyo }}</td>
                         @endif
                         <td style='word-wrap: break-word;'>{{ $attendee->user->email }}</td>
+                        <td style='word-wrap: break-word;'>{{ $attendee->user->busyo }}</td>
                         {{-- TODO: 支払い状況変更機能追加（編集ページで変更は可能） --}}
                         <td>
                             <input type="checkbox" id="doc_dl-{{$attendee->id}}" value="1" name="checkbox_list" {{$attendee->doc_dl===1 ? "checked" : ""}}>
