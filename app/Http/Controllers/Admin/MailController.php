@@ -76,13 +76,28 @@ class MailController extends Controller
     //メール配信
     public function mailsend($category_prefix,$id){
         $mails = MailList::where('id',$id)->where('status',1)->first();
-
         $this->subject = $mails->subject;
         $this->body = $mails->body;
         //配信対象イベント取得
        $event = Event::where('id',$mails->event_id)->where("status",1)->first();
        $this->eventname = $event->name;
 
+        if( $mails->sender_type == 4){
+            // 参加者のみ取得
+            $sender = Attendee::join(
+                'users','users.id','=','attendees.user_id'
+            )
+            ->leftJoin('presenters', 'presenters.attendee_id', '=', 'attendees.id')
+            ->where('attendees.event_id',$mails->event_id)
+            ->get();
+
+            foreach($sender as $key=>$value){
+                if(!$value->attendee_id){
+                    $this->mailsenddata($value);
+                }
+            }
+            exit();
+        }else
         if( $mails->sender_type == 3){
             // 企業協賛
             $sender = Attendee::join(
@@ -143,7 +158,6 @@ class MailController extends Controller
        // $header.="\n";
         //$header.="Bcc:" .mb_encode_mimeheader("管理者") ."<".$admin.">";
         $pfrom = "-f$admin";
-
 
         if(config("app.env") === "local" ){
             //メール配信

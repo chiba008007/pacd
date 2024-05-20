@@ -51,7 +51,7 @@
                             <label><input type="radio" name="sender_type" value="3" checked >{{config('pacd.mail_sender')['3']}}</label>
                         @else
                             @foreach(config('pacd.mail_sender') as $key=>$value)
-                                <?php if($key <= 2): ?>
+                                <?php if($key != 3): ?>
                                 <?php
                                     $sel = "";
                                     if(old('sender_type')){

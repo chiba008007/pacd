@@ -458,7 +458,8 @@ E-mail ： infopacd@pacd.jp",
     'mail_sender'=>[
         1=>"参加者",
         2=>"講演者",
-        3=>"協賛企業"
+        3=>"協賛企業",
+        4=>"参加者のみ"
     ],
     //メール配信対象者
     'open_address_flag'=>[
