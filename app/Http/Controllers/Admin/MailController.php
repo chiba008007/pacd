@@ -96,7 +96,6 @@ class MailController extends Controller
                     $this->mailsenddata($value);
                 }
             }
-            exit();
         }else
         if( $mails->sender_type == 3){
             // 企業協賛
@@ -160,7 +159,7 @@ class MailController extends Controller
         $pfrom = "-f$admin";
 
         if(config("app.env") === "local" ){
-            //メール配信
+            // //メール配信
             Mail::raw($body, function ($message) {
                 $message->to($this->to)
                     ->subject($this->subject);
@@ -170,7 +169,6 @@ class MailController extends Controller
             mb_send_mail($this->to , $this->subject , $body,$header,$pfrom);
 
         }
-
 
         Log::info($this->eventname."【一括メール配信：" . $this->to.":名前:".$name."\n:本文:".$body);
 
