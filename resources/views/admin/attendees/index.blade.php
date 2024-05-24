@@ -85,11 +85,9 @@
                         <th class="uk-width-small">ログインID</th>
                         <th class="uk-width-small">氏名</th>
                         <th class="uk-width-small">氏名（ふりがな）</th>
-                        @if( $form['category_prefix'] == "kyosan")
-                        <th class="uk-width-small">法人名</th>
-                        <th class="uk-width-small">所属名</th>
-                        @endif
+                        
                         <th class="uk-width-small">メールアドレス</th>
+                        <th class="uk-width-small">法人名</th>
                         <th class="uk-width-small">所属列</th>
                         <th class="uk-width-small">
                             <input type="checkbox" id="changedl"><label for="changedl">資料<br>ダウンロード許可</label>
@@ -136,11 +134,8 @@
                         <td style="word-break : break-all;">{{ $attendee->user->login_id }}</td>
                         <td>{{ $attendee->user->sei }} {{ $attendee->user->mei }}</td>
                         <td>{{ $attendee->user->sei_kana }} {{ $attendee->user->mei_kana }}</td>
-                        @if( $form['category_prefix'] == "kyosan")
-                        <td>{{ $attendee->user->cp_name }}</td>
-                        <td>{{ $attendee->user->busyo }}</td>
-                        @endif
                         <td style='word-wrap: break-word;'>{{ $attendee->user->email }}</td>
+                        <td>{{ $attendee->user->cp_name }}</td>
                         <td style='word-wrap: break-word;'>{{ $attendee->user->busyo }}</td>
                         {{-- TODO: 支払い状況変更機能追加（編集ページで変更は可能） --}}
                         <td>
