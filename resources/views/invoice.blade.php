@@ -145,9 +145,7 @@ body {
                 <div class="cell textright">{{$price}}円</div>
             </div>
         </div>
-        <br>
-        <br>
-        <div class="table" style="width:400px;">
+        <div class="table" style="width:400px;margin-top:6px;">
             <div class="row">
                 <div class="cell ">課税対象外金額合計</div>
                 <div class="cell">消費税(0%)</div>

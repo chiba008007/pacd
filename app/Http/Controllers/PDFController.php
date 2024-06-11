@@ -34,10 +34,19 @@ class PDFController extends Controller
         $paymentall = Payment::where(["uid" => $uid, "status" => 0])
             ->where('years', '>=', $payment['years'] - 2)
             ->where('years', '<=', $payment['years']);
+        if($paymentall->count() < 1){
+            $paymentall = Payment::where(["uid" => $uid])
+            ->where('years', '=', $payment['years']);
+        }
 
         $paymentall_recipe = Payment::where(["uid" => $uid, "recipe_status" => 0])
             ->where('years', '>=', $payment['years'] - 2)
             ->where('years', '<=', $payment['years']);
+        if($paymentall_recipe->count() < 1){
+            $paymentall_recipe = Payment::where(["uid" => $uid])
+            ->where('years', '=', $payment['years']);
+        }
+
         $yearpaymentdata = Yearpayment::where(['year' => $payment->years])->first();
 
         //管理画面からの遷移の為無理矢理ステータスを変更する
@@ -47,14 +56,13 @@ class PDFController extends Controller
         $category  = config('pacd.categorykey')[$payment->type]['payments'];
 
         $set = [];
-
         $set['bank_name'] = ($yearpaymentdata->bank_name) ?? config('pacd.bank.name');
         $set['bank_code'] = ($yearpaymentdata->bank_code) ?? config('pacd.bank.code');
         $set['invoice_address'] = ($yearpaymentdata->invoice_address) ?? config('pacd.bank.invoice_address');
         $set['invoice_memo'] = ($yearpaymentdata->invoice_memo) ?? config('pacd.bank.invoice_memo');
         $set['recipe_memo'] = ($yearpaymentdata->recipe_memo) ?? config('pacd.bank.recipe_memo');
 
-        $price = config('pacd.user.yearPrice')[$usertype];;
+        $price = config('pacd.user.yearPrice')[$usertype];
         $set['pay'] = number_format($price);
         $set['name'] = $username;
         $set['category'] = $category;
@@ -67,6 +75,7 @@ class PDFController extends Controller
         $set['price_recipe'] = number_format($price * $paymentall_recipe->count());
         $set['date'] = date("Y年m月d日");
         $date = date("Y/m/d H:i:s");
+
         $set['yearall'] = $paymentall->get();
         $set['yearall_recipe'] = $paymentall_recipe->get();
         $num = sprintf($user->type_number);

@@ -96,6 +96,9 @@
             font-size: 16px;
         }
 
+        .pd5 {
+            padding: 5px;
+        }
         .pd10 {
             padding: 10px;
         }
@@ -116,7 +119,7 @@
 
         .recipe {
             float: left;
-            margin-top: 160px;
+            margin-top: 140px;
         }
     </style>
 </head>
@@ -159,10 +162,10 @@
 
             <div class="table">
                 <div class="row">
-                    <div class="cell pd10">内訳</div>
-                    <div class="cell pd10">単価</div>
-                    <div class="cell pd10">数量</div>
-                    <div class="cell pd10">課税対象外金額</div>
+                    <div class="cell pd5">内訳</div>
+                    <div class="cell pd5">単価</div>
+                    <div class="cell pd5">数量</div>
+                    <div class="cell pd5">課税対象外金額</div>
                 </div>
                 @foreach($yearall as $key=>$value)
                 <div class="row">
@@ -189,9 +192,7 @@
                 </div>
 
             </div>
-            <br>
-            <br>
-            <div class="table" style="width:400px;">
+            <div class="table" style="width:400px;margin-top:6px;">
                 <div class="row">
                     <div class="cell ">課税対象外金額合計</div>
                     <div class="cell">消費税(0%)</div>
