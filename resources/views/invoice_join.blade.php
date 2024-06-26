@@ -101,10 +101,17 @@ body {
         @if( $usertype == 4 || $usertype == 1)
             <p>{{$busyo}} </p>
         @endif
+        @if( $usertype == 5 || $usertype == 6)
+        <p>{{$cp_name}}</p>
+        @endif
         {{$name}} 様
 
         </div>
-        <div>参加者番号 ({{$event_number}})</div>
+        @if( $usertype == 5 || $usertype == 6)
+            <div>&nbsp;</div>
+        @else
+            <div>参加者番号 ({{$event_number}})</div>
+        @endif
         <div class="info">
             {!! nl2br($invoice_address) !!}
         </div>
