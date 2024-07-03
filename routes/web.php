@@ -161,6 +161,9 @@ Route::group(['prefix' => config('admin.uri'), 'middleware' => 'auth:admin', 'as
     // 参加受付
     Route::get('/event/{id}/joinstatus/{attend_id}/{event_id}/{user_id}', [\App\Http\Controllers\Admin\QrHomeController::class, 'joinstatus'])->name('event.joinstatus');
 
+    // 各イベントパスワード
+    Route::get('/event/update/password', [\App\Http\Controllers\Admin\Auth\UpdateProfileController::class, 'showEventUpdatePasswordForm'])->name('event.password');
+    Route::post('/event/update/password', [\App\Http\Controllers\Admin\Auth\UpdateProfileController::class, 'postEventUpdatePasswordForm'])->name('eventupdate.password');
 
     // 管理者アカウント関連
     Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('home');
@@ -169,6 +172,10 @@ Route::group(['prefix' => config('admin.uri'), 'middleware' => 'auth:admin', 'as
     Route::post('/profile/update/email', [\App\Http\Controllers\Admin\Auth\UpdateProfileController::class, 'updateEmail']);
     Route::get('/profile/update/password', [\App\Http\Controllers\Admin\Auth\UpdateProfileController::class, 'showUpdatePasswordForm'])->name('update.password');
     Route::post('/profile/update/password', [\App\Http\Controllers\Admin\Auth\UpdateProfileController::class, 'updatePassword']);
+
+
+    Route::get('/pages/password/check', [\App\Http\Controllers\Admin\PagesController::class, 'passwordcheck'])->name('pages.password.check');
+    Route::post('/pages/password/check', [\App\Http\Controllers\Admin\PagesController::class, 'passwordchecked'])->name('pages.password.checked');
 
     // 公開ページ管理
     Route::get('/pages', [\App\Http\Controllers\Admin\PagesController::class, 'index'])->name('pages.index');
@@ -206,6 +213,10 @@ Route::group(['prefix' => config('admin.uri'), 'middleware' => 'auth:admin', 'as
 
     // 会員管理
     Route::resource('/members', \App\Http\Controllers\Admin\MembersController::class, ['except' => ['show']]);
+    
+    Route::get('/members/password/check', [\App\Http\Controllers\Admin\MembersController::class, 'passwordcheck'])->name('members.password.check');
+    Route::post('/members/password/check', [\App\Http\Controllers\Admin\MembersController::class, 'passwordchecked'])->name('members.password.checked');
+
     Route::get('/members/{id}/password', [\App\Http\Controllers\Admin\MembersController::class, 'edit_password'])->name('members.edit.password');
     Route::put('/members/{id}/password', [\App\Http\Controllers\Admin\MembersController::class, 'update_password'])->name('members.update.password');
     Route::get('/members/{id}/payment', [\App\Http\Controllers\Admin\MembersController::class, 'payment'])->name('members.payment');
@@ -309,6 +320,10 @@ Route::group(['prefix' => config('admin.uri'), 'middleware' => 'auth:admin', 'as
     Route::post('/presentations/get/numbers/{event_id?}', [\App\Http\Controllers\Admin\PresentationsController::class, 'get_numbers'])->name('presentations.get.numbers');
     Route::get('/presentations/get/numbers/{event_id?}', [\App\Http\Controllers\Admin\PresentationsController::class, 'get_numbers'])->name('presentations.get.numbers2');
 
+    Route::get('/reikai/password/check', [\App\Http\Controllers\Admin\ReikaiController::class, 'passwordcheck'])->name('reikai.password.check');
+    Route::post('/reikai/password/check', [\App\Http\Controllers\Admin\ReikaiController::class, 'passwordchecked'])->name('reikai.password.checked');
+
+
     // 例会管理
     Route::get('/reikai/event/list', [\App\Http\Controllers\Admin\ReikaiController::class, 'event_list'])->name('reikai.event.list');
     Route::get('/reikai/event/regist/{id?}', [\App\Http\Controllers\Admin\ReikaiController::class, 'event_regist'])->name('reikai.event.register');
@@ -342,6 +357,8 @@ Route::group(['prefix' => config('admin.uri'), 'middleware' => 'auth:admin', 'as
     Route::get('/{category_prefix}/reikai/mail/mailsend/{id?}', [\App\Http\Controllers\Admin\MailController::class, 'mailsend'])->name('reikai.mail.mailsend');
 
 
+    Route::get('/touronkai/password/check', [\App\Http\Controllers\Admin\TouronkaiController::class, 'passwordcheck'])->name('touronkai.password.check');
+    Route::post('/touronkai/password/check', [\App\Http\Controllers\Admin\TouronkaiController::class, 'passwordchecked'])->name('touronkai.password.checked');
 
 
     // 討論会管理
@@ -362,6 +379,9 @@ Route::group(['prefix' => config('admin.uri'), 'middleware' => 'auth:admin', 'as
 
     Route::post('/touronkai/attendees/recipeStatusUpdate', [\App\Http\Controllers\Admin\MembersController::class, 'recipeStatusUpdateAjax'])->name('touronkai.recipeStatusUpdate');
     Route::post('/touronkai/attendees/joinStatusUpdate', [\App\Http\Controllers\Admin\MembersController::class, 'joinStatusUpdateAjax'])->name('touronkai.joinStatusUpdate');
+
+    Route::get('/kyosan/password/check', [\App\Http\Controllers\Admin\KyosanController::class, 'passwordcheck'])->name('kyosan.password.check');
+    Route::post('/kyosan/password/check', [\App\Http\Controllers\Admin\KyosanController::class, 'passwordchecked'])->name('kyosan.password.checked');
 
     // 企業協賛
     Route::get('/kyosan/event/list', [\App\Http\Controllers\Admin\KyosanController::class, 'event_list'])->name('kyosan.event.list');
@@ -388,7 +408,8 @@ Route::group(['prefix' => config('admin.uri'), 'middleware' => 'auth:admin', 'as
 
 
 
-
+    Route::get('/kosyukai/password/check', [\App\Http\Controllers\Admin\KosyukaiController::class, 'passwordcheck'])->name('kosyukai.password.check');
+    Route::post('/kosyukai/password/check', [\App\Http\Controllers\Admin\KosyukaiController::class, 'passwordchecked'])->name('kosyukai.password.checked');
 
     //技術講習会
     Route::get('/kosyukai/event/list', [\App\Http\Controllers\Admin\KosyukaiController::class, 'event_list'])->name('kosyukai.event.list');

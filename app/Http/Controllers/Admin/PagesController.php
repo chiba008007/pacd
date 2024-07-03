@@ -18,9 +18,38 @@ use Illuminate\Support\Facades\DB;
 use App\Models\banner_setting;
 use App\Models\InquireSetting;
 use App\Models\Url;
+use App\Models\eventPassword;
+use Illuminate\Support\Facades\Route;
 
 class PagesController extends Controller
 {
+
+    public $eventtype = "pages";
+    public function passwordcheck(){
+        $currentPath= Route::getFacadeRoot()->current()->uri();
+        $set['currentPath'] = $currentPath;
+        $set['eventtypepath'] = $this->eventtype;
+        return view('admin.members.eventtypeForm', $set);
+    }
+    public function passwordchecked(Request $request){
+        $data = eventPassword::where("eventtype","=",$this->eventtype)
+        ->where("password","=",$request->password)
+        ->count();
+        if($data > 0){
+            // sessionに登録
+            $request->session()->put($this->eventtype, true);
+            return redirect(route('admin.'.$this->eventtype.'.index'));
+        }
+        return redirect()->back()->withInput()->with('flash.error', '認証に失敗しました。');
+    }
+    public function checked(){
+        $data = session($this->eventtype);
+        if(!$data){
+            $url = url('/') . "/" . config("admin.uri")."/".$this->eventtype."/password/check";
+            return redirect()->to($url)->send();
+        } 
+    }
+
     /**
      * 公開一覧ページ表示
      *
@@ -28,6 +57,8 @@ class PagesController extends Controller
      */
     public function index()
     {
+        $this->checked();
+
         $set['title'] = 'ページ一覧';
         $set['pages'] = Page::orderByDesc('is_opened')->orderBy('id')->paginate(20);
 

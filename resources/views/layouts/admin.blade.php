@@ -78,6 +78,9 @@ textarea::-ms-input-placeholder {
                                         <li class="uk-nav-divider"></li>
                                         <li><a class="dropdown-item" href="{{ route('admin.update.email') }}">メールアドレス変更</a></li>
                                         <li><a class="dropdown-item" href="{{ route('admin.update.password') }}">パスワード変更</a></li>
+                                        @if(Auth::guard('admin')->user()->login_id === 'main' )
+                                        <li><a class="dropdown-item" href="{{ route('admin.event.password') }}">各イベントパスワード</a></li>
+                                        @endif
                                         <li class="uk-nav-divider"></li>
                                         <li>
                                             <a class="dropdown-item" href="{{ route('admin.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ログアウト</a>
@@ -99,7 +102,8 @@ textarea::-ms-input-placeholder {
     </header>
 
     {{-- side nav --}}
-    @if (Auth::guard('admin')->check())
+
+    @if (Auth::guard('admin')->check() && !isset($eventtype) )
         <aside id="sidenav" class="uk-background-default">
             <ul class="uk-nav uk-nav-default">
                 @if (isCurrent('/' . config('admin.uri') . '/members/*'))

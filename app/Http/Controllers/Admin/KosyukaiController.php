@@ -13,6 +13,8 @@ use App\Library\CommonEventClass;
 use App\Models\Event_join;
 use Illuminate\Support\Facades\DB;
 use App\Models\Upload;
+use App\Models\eventPassword;
+use Illuminate\Support\Facades\Route;
 
 class KosyukaiController extends Controller
 {
@@ -33,8 +35,36 @@ class KosyukaiController extends Controller
         $this->Common = new CommonEventClass($this->category_type);
 
     }
+
+    public $eventtype = "kosyukai";
+    public function passwordcheck(){
+        $currentPath= Route::getFacadeRoot()->current()->uri();
+        $set['currentPath'] = $currentPath;
+        $set['eventtypepath'] = $this->eventtype;
+        return view('admin.members.eventtypeForm', $set);
+    }
+    public function passwordchecked(Request $request){
+        $data = eventPassword::where("eventtype","=",$this->eventtype)
+        ->where("password","=",$request->password)
+        ->count();
+        if($data > 0){
+            // sessionに登録
+            $request->session()->put($this->eventtype, true);
+            return redirect(route('admin.'.$this->eventtype.'.event.list'));
+        }
+        return redirect()->back()->withInput()->with('flash.error', '認証に失敗しました。');
+    }
+    public function checked(){
+        $data = session($this->eventtype);
+        if(!$data){
+            $url = url('/') . "/" . config("admin.uri")."/".$this->eventtype."/password/check";
+            return redirect()->to($url)->send();
+        } 
+    }
+
     //イベント一覧
     public function event_list(Request $request){
+        $this->checked();
         $events = Event::where('status',1)
         ->where('category_type',$this->category_type);
         $this->request = $request;

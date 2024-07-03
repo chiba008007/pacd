@@ -24,14 +24,45 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Models\Yearpayment;
 use App\Models\Event;
+use Illuminate\Support\Facades\Session;
+use App\Models\eventPassword;
+
 
 ini_set('max_execution_time', 0);
 
 class MembersController extends Controller
 {
+    public $eventtype = "members";
+    public function passwordcheck(){
+        $currentPath= Route::getFacadeRoot()->current()->uri();
+        $set['currentPath'] = $currentPath;
+        $set['eventtypepath'] = $this->eventtype;
+        return view('admin.'.$this->eventtype.'.eventtypeForm', $set);
+    }
+    public function passwordchecked(Request $request){
+        $data = eventPassword::where("eventtype","=",$this->eventtype)
+        ->where("password","=",$request->password)
+        ->count();
+        if($data > 0){
+            // sessionに登録
+            $request->session()->put($this->eventtype, true);
+            return redirect(route('admin.members.index'));
+        }
+        return redirect()->back()->withInput()->with('flash.error', '認証に失敗しました。');
+    }
+    public function checked(){
+        $data = session($this->eventtype);
+        if(!$data){
+            $url = url('/') . "/" . config("admin.uri")."/".$this->eventtype."/password/check";
+            return redirect()->to($url)->send();
+        } 
+    }
+
     // 会員一覧ページ表示
     public function index(Request $request)
     {
+        $this->checked();
+
         $currentPath= Route::getFacadeRoot()->current()->uri();
 
        // $users = User::paginate(20);

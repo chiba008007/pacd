@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 use App\Library\CommonEventClass;
 use App\Models\Presentation;
 use App\Models\Upload;
+use App\Models\eventPassword;
 
 class ReikaiController extends Controller
 {
@@ -35,8 +36,37 @@ class ReikaiController extends Controller
         $this->Common = new CommonEventClass($this->category_type);
 
     }
+
+    public $eventtype = "reikai";
+    public function passwordcheck(){
+        $currentPath= Route::getFacadeRoot()->current()->uri();
+        $set['currentPath'] = $currentPath;
+        $set['eventtypepath'] = $this->eventtype;
+        return view('admin.members.eventtypeForm', $set);
+    }
+    public function passwordchecked(Request $request){
+        $data = eventPassword::where("eventtype","=",$this->eventtype)
+        ->where("password","=",$request->password)
+        ->count();
+        if($data > 0){
+            // sessionに登録
+            $request->session()->put($this->eventtype, true);
+            return redirect(route('admin.reikai.event.list'));
+        }
+        return redirect()->back()->withInput()->with('flash.error', '認証に失敗しました。');
+    }
+    public function checked(){
+        $data = session($this->eventtype);
+        if(!$data){
+            $url = url('/') . "/" . config("admin.uri")."/".$this->eventtype."/password/check";
+            return redirect()->to($url)->send();
+        } 
+    }
+
     //イベント一覧
     public function event_list(Request $request){
+        $this->checked();
+
         $events = Event::where('status',1)
         ->where('category_type',$this->category_type);
         $this->request = $request;

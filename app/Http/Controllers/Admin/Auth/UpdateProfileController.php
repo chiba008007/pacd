@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\eventPassword;
 
 class UpdateProfileController extends Controller
 {
@@ -38,6 +39,42 @@ class UpdateProfileController extends Controller
     {
         $set['title'] = 'パスワード変更';
         return view('admin.auth.passwords.update', $set);
+    }
+    public function showEventUpdatePasswordForm()
+    {
+        if(Auth::guard('admin')->user()->login_id != "main"){
+            echo "error";
+            exit();
+        }
+
+        $items = eventPassword::get();
+        $data = [];
+        $label = [];
+        $eventtypeTitle[ 'members' ] = "会員管理";
+        $eventtypeTitle[ 'reikai' ] = "例会&講演会";
+        $eventtypeTitle[ 'touronkai' ] = "高分子分析討論会";
+        $eventtypeTitle[ 'kyosan' ] = "企業協賛";
+        $eventtypeTitle[ 'kosyukai' ] = "高分子分析技術講習会";
+        $eventtypeTitle[ 'pages' ] = "公開ページ管理";
+        foreach ($items as $item) {
+            $data[$item->eventtype] = $item->eventtype;
+            $password[$item->eventtype] = $item->password;
+            $label[$item->id] = $item->eventtype;
+        }
+        $set['title'] = '各イベントパスワード変更';
+        $set['data'] = $data;
+        $set['label'] = $label;
+        $set['eventtypeTitle'] = $eventtypeTitle;
+        $set['password'] = $password;
+        return view('admin.auth.passwords.eventUpdate', $set);
+    }
+    public function postEventUpdatePasswordForm(Request $request)
+    {
+        // データ取得
+        foreach($request->eventtype as $key=>$value){
+            eventPassword::find($key)->update(['password'=>$value]);
+        }
+        return redirect()->back()->with('status', 'パスワードを変更しました。');
     }
 
     public function updatePassword(Request $request)
