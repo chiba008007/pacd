@@ -323,7 +323,7 @@ class AttendeesController extends Controller
         if ($request->custom) {
             $rules['custom.*'] = new CustomFormDataRule();
         }
-        $request->validate($rules);
+        //$request->validate($rules);
 
         DB::beginTransaction();
         try {
