@@ -1,7 +1,7 @@
 @section('eventtype', $eventtype = true)
 @extends('layouts.admin')
 
-@section('title', $title = '会員ログイン')
+@section('title', $title = '認証ログイン')
 
 @section('breadcrumb')
     @parent
