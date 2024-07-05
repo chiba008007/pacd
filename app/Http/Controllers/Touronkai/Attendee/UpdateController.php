@@ -80,9 +80,9 @@ class UpdateController extends Controller
             $this->attendee->save();
             if ($request->custom) {
                 FormDataAttendee::updateFromInputData($request->custom, $this->attendee);
-                DB::commit();
                 Log::info("【". $this->form['display_name']. "情報編集】attendee_id:$this->attendee->id");
             }
+            DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
             Log::error(Route::currentRouteAction() . "【". $this->form['display_name'] . "情報編集】attendee_id: $this->attendee->id, error:" . $e->getMessage());
