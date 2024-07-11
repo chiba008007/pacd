@@ -554,6 +554,8 @@ class PresentersController extends Controller
         $array_type[3] = $master_array_type[3];
         $array_type[4] = $master_array_type[4];
         $array_type[1] = $master_array_type[1];
+        $array_type[5] = $master_array_type[5];
+        $array_type[6] = $master_array_type[6];
 
         $payment = config('pacd.payment');
 
@@ -615,73 +617,7 @@ class PresentersController extends Controller
         }
 
 
-/*
-        $custom_form  = FormInput::where(['form_type' => $this->form['key']])->orderBy('id', 'asc')->get();
-        $tmp = [];
-        foreach($custom_form as $key=>$value){
-            $tmp[] = $value->name;
-        }
-var_dump($tmp);
-exit();
-/*
-        // 選択したカスタム入力フォームの取得
-        $sql = "
 
-        SELECT
-            presenter_id,
-            GROUP_CONCAT(data) AS 'names',
-            GROUP_CONCAT(fiv.form_input_id) AS 'form_input_id',
-            GROUP_CONCAT(fi.name) AS 'finame'
-        FROM
-            `form_data_presenters` as fdp
-        LEFT JOIN form_input_values as fiv ON fdp.form_input_value_id = fiv.id
-        LEFT JOIN form_inputs as fi ON fi.id = fiv.form_input_id
-        GROUP BY `presenter_id`  ORDER  BY `form_input_value_id`";
-        $selectCustom = DB::select($sql);
-var_dump($selectCustom);
-exit();
-
-        $tmpValue = [];
-        $tmpValueList = [];
-        $tmpValueLists = [];
-
-        foreach($selectCustom as $value){
-            $form_input_id = explode(",",$value->form_input_id);
-
-            $names = explode(",",$value->names);
-            foreach($form_input_id as $k=>$v){
-                if(isset($names[$k])){
-                    $tmpValue[$value->presenter_id][$v][] = $names[$k];
-                }
-            }
-        }
-        // CSVに表示する際に空欄を埋める配列の指定を行う
-        $tmpLoop = [];
-        foreach($tmpValue as $key=>$val){
-            foreach($val as $k=>$v){
-                $tmpValueList[$key][$k] = implode("/",$v);
-                $tmpLoop[$k] = true;
-            }
-        }
-        // tmpLoopの配列の数分を回す
-        foreach($tmpValueList as $keys=>$value){
-            foreach($tmpLoop as $k=>$v){
-                if(isset($value[$k])){
-                    $tmpValueList[$keys][$k] = $value[$k];
-                }else{
-                    $tmpValueList[$keys][$k] = "";
-                }
-            }
-        }
-
-        foreach($tmpValueList as $key=>$value){
-            ksort($value);
-            $tmpValueList[$key] = $value;
-        }
-        foreach($tmpValueList as $key=>$val){
-            $tmpValueLists[$key] = implode(",",$val);
-        }
-        */
         if($this->form['category_prefix'] == "touronkai"){
             //法人会員(担当窓口）
             $header[2] = ["参加イベント","発表番号","講演者番号","題目","講演演者","所属","発表概要","参加者番号","ID","会員種別","法人会員番号","法人名","郵便番号","法人住所","所属部署","担当者氏名","担当者氏名かな","担当者電話番号","担当者メールアドレス","メールアドレス公開"];
@@ -691,6 +627,10 @@ exit();
             $header[4] = ["参加イベント","発表番号","講演者番号","題目","講演演者","所属","発表概要","参加者番号","ID","会員種別","個人会員番号","郵便番号","所属住所","所属","氏名","ふりがな","電話番号","メールアドレス","メールアドレス公開"];
 
             $header[1] = ["参加イベント","発表番号","講演者番号","題目","講演演者","所属","発表概要","参加者番号","ID","会員種別","郵便番号","所属住所","所属","氏名","ふりがな","協賛学会所属の有無","電話番号","メールアドレス"];
+
+            $header[5] = ["参加イベント","発表番号","講演者番号","題目","講演演者","所属","発表概要","参加者番号","ID","会員種別","郵便番号","所属住所","所属","氏名","ふりがな","協賛学会所属の有無","電話番号","メールアドレス"];
+            
+            $header[6] = ["参加イベント","発表番号","講演者番号","題目","講演演者","所属","発表概要","参加者番号","ID","会員種別","郵便番号","所属住所","所属","氏名","ふりがな","協賛学会所属の有無","電話番号","メールアドレス"];
         }else{
             //法人会員(担当窓口）
             $header[2] = ["参加イベント","発表番号","講演者番号","講演内容","参加者番号","ID","会員種別","法人会員番号","法人名","郵便番号","法人住所","所属部署","担当者氏名","担当者氏名かな","担当者電話番号","担当者メールアドレス","メールアドレス公開"];
@@ -700,12 +640,16 @@ exit();
             $header[4] = ["参加イベント","発表番号","講演者番号","講演内容","参加者番号","ID","会員種別","個人会員番号","郵便番号","所属住所","所属","氏名","ふりがな","電話番号","メールアドレス","メールアドレス公開"];
 
             $header[1] = ["参加イベント","発表番号","講演者番号","講演内容","参加者番号","ID","会員種別","郵便番号","所属住所","所属","氏名","ふりがな","協賛学会所属の有無","電話番号","メールアドレス"];
+
+            $header[5] = ["参加イベント","発表番号","講演者番号","題目","講演演者","所属","発表概要","参加者番号","ID","会員種別","郵便番号","所属住所","所属","氏名","ふりがな","協賛学会所属の有無","電話番号","メールアドレス"];
+            
+            $header[6] = ["参加イベント","発表番号","講演者番号","題目","講演演者","所属","発表概要","参加者番号","ID","会員種別","郵便番号","所属住所","所属","氏名","ふりがな","協賛学会所属の有無","電話番号","メールアドレス"];
         }
 
         // ヘッダにカスタム項目の追加
         for($i=1;$i<=count($header);$i++){
             foreach($temphead as $value){
-               array_push($header[$i],$value->name);
+               @array_push($header[$i],$value->name);
             }
         }
 
