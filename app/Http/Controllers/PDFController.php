@@ -259,10 +259,22 @@ class PDFController extends Controller
 
         $filecompanyname = mb_substr($user->cp_name."・".$user->busyo,0,15,'UTF-8');
         $file = $event->name."_".date('ymdHis')."_".$attend->event_number."_".$user->login_id."_".$filecompanyname."_".$price.$exists;
+        $file = preg_replace("/\?/","？",$file);
+        $file = str_replace("\\","￥",$file);
+        $file = preg_replace("/\//","／",$file);
+        $file = preg_replace("/\:/","：",$file);
+        $file = preg_replace("/\*/","＊",$file);
+
         $pdf->save($pdfpath  ."/original/". $file.".pdf");
 
         // 検索用
         $filenamecode = date('ymdHis')."_".$attend->event_number."_".$user->login_id;
+        $filenamecode = preg_replace("/\?/","？",$filenamecode);
+        $filenamecode = str_replace("\\","￥",$filenamecode);
+        $filenamecode = preg_replace("/\//","／",$filenamecode);
+        $filenamecode = preg_replace("/\:/","：",$filenamecode);
+        $filenamecode = preg_replace("/\*/","＊",$filenamecode);
+
         $pdf->save($pdfpath  ."/search/". $filenamecode.".pdf");
         
         // ローカルに保存したデータをDBに保持する
