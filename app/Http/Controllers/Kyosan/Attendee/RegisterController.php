@@ -127,7 +127,12 @@ class RegisterController extends Controller
             $data['event_number'] = Event::getEventNumber($this->event->id);
             //ダウンロード不可の初期状態を可にする
             $data['is_enabled_invoice'] = 1;
+            if($request->discountSelectFlag){
+                $data['discountSelectFlag'] = $request->discountSelectFlag;
+                $data['discountSelectText'] = $request->discountSelectText;
+            }
             $attendee = Attendee::create($data);
+
             if ($request->custom) {
                 FormDataAttendee::createFromInputData($request->custom, $attendee);
             }
@@ -135,13 +140,7 @@ class RegisterController extends Controller
             DB::commit();
             Log::info("【" . $this->form['display_name'] . "登録】attendee_id:$attendee->id");
             $this->attendee = $attendee;
-            // if (config("app.env") === "local") {
-            //     // 管理者へメール通知
-            //     Mail::to(config('admin.email'))->send(new \App\Mail\Admin\CreateAttendee($attendee, $this->form));
-            // } else {
-            //     // 本番用
-            //     $this->mailsend($this->user->id);
-            // }
+
             $this->mailsend($this->user->id);
         } catch (\Exception $e) {
             DB::rollback();
@@ -165,7 +164,6 @@ class RegisterController extends Controller
     {
         //例会参加メール取得
         $form_type = config('pacd.CONST_MAIL_FORM_TEMP.kyosan.17.key');
-
         $mailformat = Mailforms::getData($form_type);
 
         //ユーザーデータ取得
@@ -216,20 +214,22 @@ class RegisterController extends Controller
         $header .= "Bcc:" . mb_encode_mimeheader("管理者") . "<" . $admin . ">";
         $pfrom = "-f$admin";
 
-        Log::debug($this->event->name . "【メール配信：" . $this->to . "\n:本文:" . $body);
-
-        if (config("app.env") === "local") {
-            Mail::raw($body, function ($message) {
-                $message->to($this->to)
-                    ->subject($this->title);
-            });
-        } else {
-            // 本番用
-            mb_send_mail($this->to, $this->title, $body, $header, $pfrom);
-        }
+        Log::debug($this->event->name."【メール配信：" . $this->to."\n:本文:".$body);
 
 
+        mb_send_mail($this->to , $this->title , $body,$header,$pfrom);
 
+        // Log::debug($this->event->name . "【メール配信：" . $this->to . "\n:本文:" . $body);
+
+        // if (config("app.env") === "local") {
+        //     Mail::raw($body, function ($message) {
+        //         $message->to($this->to)
+        //             ->subject($this->title);
+        //     });
+        // } else {
+        //     // 本番用
+        //     mb_send_mail($this->to, $this->title, $body, $header, $pfrom);
+        // }
         return true;
 
         /*

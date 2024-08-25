@@ -79,6 +79,9 @@ class UpdateController extends Controller
                 $this->attendee->event_join_id_list = implode(",",$request->event_join_id_list);
             }
 
+            $this->attendee->discountSelectFlag = $request->discountSelectFlag;
+            $this->attendee->discountSelectText = $request->discountSelectText;
+            
             $this->attendee->paydate = $request->paydate;
 
             $this->attendee->save();

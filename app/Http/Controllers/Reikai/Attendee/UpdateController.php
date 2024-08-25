@@ -78,6 +78,9 @@ class UpdateController extends Controller
 
                 $this->attendee->event_join_id_list = implode(",",$request->event_join_id_list);
             }
+            $this->attendee->discountSelectFlag = $request->discountSelectFlag;
+            $this->attendee->discountSelectText = $request->discountSelectText;
+            
             $this->attendee->save();
             if ($request->custom) {
                 FormDataAttendee::updateFromInputData($request->custom, $this->attendee);

@@ -117,6 +117,30 @@
                             </div>
                         @endif
 
+                        @if ($event->discountFlag == 1)
+                        <div class="uk-margin-small">
+                            
+                            <label class="uk-form-label">割引率({{$event->discountRate}}%)</label>
+                            <div class="uk-form-controls uk-form-controls-text">
+                                以下に参加された方はチェックを入れていただくと、今回の参加費が割引になります。<br />
+                                過去の参加状況
+                                <br />
+                                @php
+                                    $checked1 = "";
+                                    if(old("discountSelectFlag",$attendee->discountSelectFlag) == 1){
+                                        $checked1 = "checked";
+                                    }
+                                @endphp
+                                <input type="checkbox" name="discountSelectFlag" id="discountSelectFlag" value="1" class="uk-checkbox"  {{$checked1}} />
+                                <label for="discountSelectFlag" >{{$event->discountText}}</label>
+
+                                <div class="uk-margin-small-top" />
+                                    参加番号
+                                    <input class="uk-input uk-form-width-medium uk-form-small" type="text" name="discountSelectText" value="{{old('discountSelectText',$attendee->discountSelectText)}}" >
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                         <div class="uk-margin-small">
                             <label class="uk-form-label">参加費支払い状況</label>
                             <div class="uk-form-controls uk-form-controls-text">

@@ -296,6 +296,32 @@
                     
                     <p ><b>【合算】</b>講演会参加費と懇親会参加費が合算された形で、請求書及び領収書がそれぞれ1枚づつ出力されます。</p>
                     <p ><b>【分割】</b>講演会参加費と懇親会参加費が分割された形で、請求書及び領収書がそれぞれ2枚づつ出力されます。</p>
+                    <h3>割引条件</h3>
+                    @php
+                        $checked1 = "";
+                        $checked2 = "";
+                        if(old("discountFlag",$discountFlag) == 1){
+                            $checked1 = "checked";
+                        }
+                        if(old("discountFlag",$discountFlag) == 0){
+                            $checked2 = "checked";
+                        }
+                    @endphp
+                    <input type="radio" name="discountFlag" id="discountFlag_1" class="uk-radio" value=1 {{$checked1}}/>
+                    <label for="discountFlag_1" >有効</label>
+                    
+                    <input type="radio" name="discountFlag" id="discountFlag_2" class="uk-radio uk-margin-small-left" value=0 {{$checked2}} />
+                    <label for="discountFlag_2">無効</label>
+                    <div id="discountArea" class="uk-margin-small-top" >
+                        割引率
+                        <input class="uk-input uk-form-width-medium uk-form-small" type="text" name="discountRate" value="{{old('discountRate',$discountRate)}}" >%
+                        <div class="uk-margin-small-top" />
+                            割引名
+                            <input class="uk-input uk-form-width-medium uk-form-small" type="text" name="discountText" value="{{old('discountText',$discountText)}}" >
+                        </div>
+
+
+                    </div>
                     <h3>説明文</h3>
                     <textarea name="sanka_explain" class="uk-textarea">{{old('sanka_explain',$sanka_explain)}}</textarea>
                 <table class="uk-table bordernone uk-margin-top">
@@ -356,5 +382,21 @@
 @section('footer')
     <script src="{{ asset('js/admin/event.js') }}"></script>
     <script src="{{ asset('js/admin/pages2.js') }}"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#discountArea").hide();
+        $(this).discount();
+        $("[name='discountFlag']").click(function(){
+            $(this).discount();
+        });
+    });
+    $.fn.discount = function(){
+        let tmp = $("[name='discountFlag']:checked").val();
+        $("#discountArea").hide();
+        if(tmp > 0){
+            $("#discountArea").show();
+        }
+    }
 
+</script>
 @endsection

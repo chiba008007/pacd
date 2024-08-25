@@ -151,6 +151,8 @@ class PDFController extends Controller
                 'event_number',
                 'is_paid',
                 'event_join_id_list',
+                'discountSelectFlag',
+                'discountSelectText',
             ])
             //->leftjoin('event_joins','event_joins.id','=','attendees.event_join_id')
             ->first();
@@ -192,11 +194,22 @@ class PDFController extends Controller
         $price2 = 0;
         foreach ($event_join as $key => $value) {
             $price += $value->join_price;
+            if($attend->discountSelectFlag == 1 && $event->discountRate){
+                $value->join_price = $value->join_price * ((100-$event->discountRate)/100);
+            }
         }
         foreach ($event_join2 as $key => $value) {
             $price2 += $value->join_price;
+            if($attend->discountSelectFlag == 1 && $event->discountRate){
+                $value->join_price = $value->join_price * ((100-$event->discountRate)/100);
+            }
         }
 
+        // 割引計算
+        if($attend->discountSelectFlag == 1 && $event->discountRate){
+            $price = $price * ((100-$event->discountRate)/100);
+            $price2 = $price2 * ((100-$event->discountRate)/100);
+        }
         // 消費税前
         // $price = $price -$price*0.1;
         $set['category_type'] = $event->category_type;

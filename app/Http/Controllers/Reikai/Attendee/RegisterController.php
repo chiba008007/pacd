@@ -110,7 +110,6 @@ class RegisterController extends Controller
         $set['event'] = $this->event;
         $set['form'] = $this->form;
         $set['user'] = $this->user;
-
         return view('attendee.register', $set);
     }
 
@@ -158,6 +157,10 @@ class RegisterController extends Controller
             $data['event_number'] = Event::getEventNumber($this->event->id);
             //ダウンロード不可の初期状態を可にする
             $data['is_enabled_invoice'] = 1;
+            if($request->discountSelectFlag){
+                $data['discountSelectFlag'] = $request->discountSelectFlag;
+                $data['discountSelectText'] = $request->discountSelectText;
+            }
             $attendee = Attendee::create($data);
             if ($request->custom) {
                 FormDataAttendee::createFromInputData($request->custom, $attendee);

@@ -515,8 +515,6 @@ class AttendeesController extends Controller
         // 参加料金区分、参加料金
         $joinstitle = $value->event->event_joins->where('join_status', 1)->where('status', 1);
 
-
-
         /*
         $header = ["ID","会員種別","法人会員番号","法人名","所属部署","郵便番号","法人住所","担当者氏名","ふりがな","担当者電話番号","担当者メールアドレス","メールアドレス公開","年会費","請求書","領収書","協賛学会所属の有無","参加イベント","参加者番号","参加料金区分","参加料金","参加状況",$c];
         */
@@ -573,7 +571,7 @@ class AttendeesController extends Controller
                 }
                 if (isset($data[$keys])) {
                     foreach ($data[$keys] as $key => $value) {
-
+                        
                         $num = sprintf('%010d', $value->event_number);
                         $clum = [];
 
@@ -683,7 +681,6 @@ class AttendeesController extends Controller
                         // 参加料金区分、参加料金
                         $joins = $value->event->event_joins->where('join_status', 1)->where('status', 1);
                         $explode = explode(",", $value->event_join_id_list);
-
                         //$clumJN = array();
                         //$clumJP = array();
                         // foreach($joins as $join) {
@@ -697,7 +694,12 @@ class AttendeesController extends Controller
                                 $clum[] = " ";
                             }
                             if (in_array($join->id, $explode)) {
-                                $clum[] = $join->join_price;
+                                if($value->discountSelectFlag == 1 && $value->event->discountRate){
+                                    $price = $join->join_price * ((100-$value->event->discountRate)/100);
+                                }else{
+                                    $price = $join->join_price;
+                                }
+                                $clum[] = $price;
                             } else {
                                 $clum[] = " ";
                             }

@@ -21,6 +21,8 @@ class Attendee extends Model
         'paydate',
         'is_paid',
         'is_enabled_invoice',
+        'discountSelectFlag',
+        'discountSelectText',
     ];
 
 
@@ -63,6 +65,9 @@ class Attendee extends Model
             'event_join_id' => 0,
             'event_join_id_list' => 0,
             'is_paid' => 0,
+            'is_paid' => 0,
+            'discountSelectFlag' => 0,
+            'discountSelectText' => 0,
         ]);
         $test->id = 0;
         return $test;
