@@ -673,7 +673,7 @@ class PresentersController extends Controller
                             $clum[] = isset($presentation->daimoku) ? htmlspecialchars($presentation->daimoku):"";
                             $clum[] = isset($presentation->enjya) ? htmlspecialchars($presentation->enjya):"";
                             $clum[] = isset($presentation->syozoku) ? htmlspecialchars($presentation->syozoku):"";
-                            $clum[] = isset($presentation->daigaiyooku) ? htmlspecialchars($presentation->gaiyo):"";
+                            $clum[] = isset($presentation->gaiyo) ? htmlspecialchars($presentation->gaiyo):"";
                         }else{
                             $clum[] = isset($presentation->description) ? htmlspecialchars($presentation->description):"";
                         }

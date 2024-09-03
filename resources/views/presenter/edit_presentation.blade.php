@@ -28,21 +28,31 @@
                             {{ $presentation->number }}
                         </div>
                     </div>
-
-                    <div class="uk-margin">
-                        <label class="uk-form-label uk-text-left" for="description">
-                            講演内容
-                        </label>
-                        <div class="uk-form-controls">
-                            <textarea name="description" class="uk-textarea" rows="5">{{ old() ? old('description') : $presentation->description }}</textarea>
-                            @error('description')
-                                <div class="uk-text-danger uk-text-uppercase">
-                                    <p>{{ $message }}</p>
-                                </div>
-                            @enderror
+                    @if($form['category_prefix'] == "touronkai")
+                        
+                        <div class="uk-margin">
+                            <label class="uk-form-label uk-text-left" for="gaiyo">
+                                発表概要
+                            </label>
+                            <div class="uk-form-controls">
+                                <textarea name="gaiyo" class="uk-textarea" rows="5">{{ old() ? old('gaiyo') : $presentation->gaiyo }}</textarea>
+                            </div>
                         </div>
-                    </div>
-
+                    @else
+                        <div class="uk-margin">
+                            <label class="uk-form-label uk-text-left" for="description">
+                                講演内容
+                            </label>
+                            <div class="uk-form-controls">
+                                <textarea name="description" class="uk-textarea" rows="5">{{ old() ? old('description') : $presentation->description }}</textarea>
+                                @error('description')
+                                    <div class="uk-text-danger uk-text-uppercase">
+                                        <p>{{ $message }}</p>
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                    @endif
                     <div class="uk-margin">
                         <label class="uk-form-label uk-text-left" for="proceeding">
                             @if($form['category_prefix'] == "reikai")

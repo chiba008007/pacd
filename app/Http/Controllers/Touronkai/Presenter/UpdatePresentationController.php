@@ -62,11 +62,12 @@ class UpdatePresentationController extends Controller
         $attribute = [
             'number' => '発表番号',
             'description' => '講演内容',
+            'gaiyo' => '講演概要',
             'file.proceeding' => '原稿',
             'file.flash' => '原稿',
             'file.poster' => '原稿',
         ];
-        $request->validate($rules, [], $attribute);
+      //  $request->validate($rules, [], $attribute);
 
         DB::beginTransaction();
         try {
@@ -88,6 +89,7 @@ class UpdatePresentationController extends Controller
                 }
             }
             $data['description'] = $request->description ?? '';
+            $data['gaiyo'] = $request->gaiyo ?? '';
 
             $this->presentation->fill($data);
             $this->presentation->save();
@@ -139,6 +141,7 @@ class UpdatePresentationController extends Controller
         $header.="Bcc:" .mb_encode_mimeheader("管理者") ."<".$admin.">";
         $pfrom = "-f$admin";
 
+        
         mb_send_mail($this->to , $this->title , $body,$header,$pfrom);
 
         return true;
