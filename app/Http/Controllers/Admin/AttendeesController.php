@@ -687,6 +687,7 @@ class AttendeesController extends Controller
                         //     if(in_array($join->id,$explode)) $clumJN[] = $join->join_name;
                         //     if(in_array($join->id,$explode)) $clumJP[] = $join->join_price;
                         // }
+
                         foreach ($joins as $join) {
                             if (in_array($join->id, $explode)) {
                                 $clum[] = $join->join_name;
@@ -694,7 +695,7 @@ class AttendeesController extends Controller
                                 $clum[] = " ";
                             }
                             if (in_array($join->id, $explode)) {
-                                if($value->discountSelectFlag == 1 && $value->event->discountRate){
+                                if($value->discountSelectFlag == 1 && $value->event->discountRate && $join->pattern == 1){
                                     $price = $join->join_price * ((100-$value->event->discountRate)/100);
                                 }else{
                                     $price = $join->join_price;
