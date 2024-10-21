@@ -95,12 +95,11 @@
 
         <div style="page-break-after: always"></div>
         <div class="mt20">
-            <p>
+            <p style="text-align:left;display:block;width:360px;margin:0 auto;">
                 当日は名札入れをお配りしますので、<br>
-                御名刺を入れていただくか、<br>
-                こちらの枠線で切り取ってお使いください。
+                こちらの枠線で切り取って名札としてお使いください。
             </p>
-            <div class="card text-center">
+            <div class="card text-center" style="margin-top:30px;">
                 <div class="mt20 f18">
                     {{$event->name}}
                 </div>
