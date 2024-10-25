@@ -78,9 +78,11 @@
             参加者番号 :
             {{$event_number}}
         </div>
+        @if (!($user->type == 1 || $user->type == 4))
         <div class="mt20 f22">
             {{$user->cp_name}}
         </div>
+        @endif
         <div class="mt20">
             {{$user->sei}}
             {{$user->mei}}
@@ -103,10 +105,14 @@
                 <div class="mt20 f18">
                     {{$event->name}}
                 </div>
+                
                 <div class="mt20 f18">
+                    @if (!($user->type == 1 || $user->type == 4))
                     {{$user->cp_name}}<br />
+                     @endif
                     {{$user->busyo}}
                 </div>
+               
                 <div class="mt20 f18">
                     {{$user->sei}}
                     {{$user->mei}}
