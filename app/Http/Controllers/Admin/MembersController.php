@@ -388,10 +388,15 @@ class MembersController extends Controller
     // 会員情報更新処理（PUT/PATCH）
     public function update(UpdateUserRequest $request, $id)
     {
+        if($request->type == 1){
+            $userdata = User::find($id);
+            $userdata->type_number = "";
+            $userdata->cp_name = "";
+            $userdata->save();
+        }
         DB::beginTransaction();
         try {
             if ($user = User::find($id)) {
-
                 $user->fill($request->all())->save();
                 if ($request->custom) {
                     FormDataCommon::updateFormInputData($request->custom, $user);
