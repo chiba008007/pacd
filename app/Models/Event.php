@@ -112,13 +112,12 @@ class Event extends Model
      */
     public function setRequest($obj, $request)
     {
-
         $obj->code = $request->code;
         $obj->sponser = $request->sponser;
         $obj->name = $request->name;
         $obj->discountFlag = $request->discountFlag;
-        $obj->discountRate = $request->discountRate;
-        $obj->discountText = $request->discountText;
+        $obj->discountRate = sprintf("%d",$request->discountRate);
+        $obj->discountText = ($request->discountText)?$request->discountText:"";
         $obj->event_info = $request->event_info;
         $obj->date_start = $request->date_start;
         $obj->date_start_time = $request->date_start_time1 . ":" . $request->date_start_time2;
