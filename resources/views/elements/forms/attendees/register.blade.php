@@ -138,23 +138,31 @@
 
         @if ($event->discountFlag == 1)
         <div class="uk-margin">
-            <label for="event_join_id" class="uk-form-label">過去の{{$title}}参加状況</label>
-            <div class="uk-form-contorls ">
-                <div style="padding-top:10px;">
-                    以下の{{$title}}に参加された方はチェックを入れていただくと、今回の参加費が割引になります。
-                </div>
-                <div class="uk-grid-small uk-child-width-auto uk-grid ">
-                    <div class="uk-margin-small-top">
-                        <input type="checkbox" name="discountSelectFlag" id="discountSelectFlag" value="1" class="uk-checkbox"  />
-                        <label for="discountSelectFlag">{{$event->discountText}}
-                        </label>
-                        <br />
-                        <br />
-                        参加番号
-                        <input type="text" name="discountSelectText" id="discountSelectText" value="" class="uk-input"  />
-                    </div>
-                </div>
-            </div>
+            <table >
+                <tr>
+                    <td style="border:none;">
+                        <label for="event_join_id" class="uk-form-label">過去の{{str_replace("参加申込","",$title)}}参加状況</label>
+                    </td>
+                    <td style="border:none;">
+                        <div class="uk-form-contorls ">
+                            <div style="padding-top:10px;">
+                                以下の{{str_replace("参加申込","",$title)}}に参加された方はチェックを入れていただくと、今回の参加費が割引になります。
+                            </div>
+                            <div class="uk-grid-small uk-child-width-auto uk-grid ">
+                                <div class="uk-margin-small-top">
+                                    <input type="checkbox" name="discountSelectFlag" id="discountSelectFlag" value="1" class="uk-checkbox"  />
+                                    <label for="discountSelectFlag">{{$event->discountText}}
+                                    </label>
+                                    <br />
+                                    <br />
+                                    参加番号
+                                    <input type="text" name="discountSelectText" id="discountSelectText" value="" class="uk-input"  />
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
         @endif
         

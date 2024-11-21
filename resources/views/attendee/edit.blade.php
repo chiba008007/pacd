@@ -139,29 +139,39 @@
 
                         @if ($event->discountFlag == 1)
                         <div class="uk-margin">
-                            <label for="event_join_id" class="uk-form-label">過去の{{$title}}参加状況</label>
-                            <div class="uk-form-contorls ">
-                                <div style="padding-top:10px;">
-                                    以下の{{$title}}に参加された方はチェックを入れていただくと、今回の参加費が割引になります。
-                                </div>
-                                <div class="uk-grid-small uk-child-width-auto uk-grid ">
-                                    <div class="uk-margin-small-top">
-                                        <?php
-                                        $checked = "";
-                                        if($attendee->discountSelectFlag == 1){
-                                            $checked = "checked";
-                                        }
-                                        ?>
-                                        <input type="checkbox" name="discountSelectFlag" id="discountSelectFlag" value="1" class="uk-checkbox"  {{$checked}} />
-                                        <label for="discountSelectFlag">{{$event->discountText}}
-                                        </label>
-                                        <br />
-                                        <br />
-                                        参加番号
-                                        <input type="text" name="discountSelectText" id="discountSelectText" value="{{$attendee->discountSelectText}}" class="uk-input"  />
-                                    </div>
-                                </div>
-                            </div>
+                            <table >
+                                <tr>
+                                    <td style="border:none;">
+                                        <label for="event_join_id" class="uk-form-label">過去の{{str_replace("参加者情報編集","",$title)}}参加状況</label>
+                                    </td>
+                                    <td style="border:none;">
+                                        <div class="uk-form-contorls ">
+                                            <div style="padding-top:10px;">
+                                                以下の{{str_replace("参加者情報編集","",$title)}}に参加された方はチェックを入れていただくと、今回の参加費が割引になります。
+                                            </div>
+                                            <div class="uk-grid-small uk-child-width-auto uk-grid ">
+                                                <div class="uk-margin-small-top">
+                                                    <?php
+                                                    $checked = "";
+                                                    if($attendee->discountSelectFlag == 1){
+                                                        $checked = "checked";
+                                                    }
+                                                    ?>
+                                                    <input type="checkbox" name="discountSelectFlag" id="discountSelectFlag" value="1" class="uk-checkbox"  {{$checked}} />
+                                                    <label for="discountSelectFlag">{{$event->discountText}}
+                                                    </label>
+                                                    <br />
+                                                    <br />
+                                                    参加番号
+                                                    <input type="text" name="discountSelectText" id="discountSelectText" value="{{$attendee->discountSelectText}}" class="uk-input"  />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            
+                            </table>
                         </div>
                         @endif
 
