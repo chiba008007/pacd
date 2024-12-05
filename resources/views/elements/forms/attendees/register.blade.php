@@ -141,12 +141,20 @@
             <table >
                 <tr>
                     <td style="border:none;">
-                        <label for="event_join_id" class="uk-form-label">過去の{{str_replace("参加申込","",$title)}}参加状況</label>
+                        @if ($event->discountTitle)
+                            {{ $event->discountTitle}}
+                        @else
+                            <label for="event_join_id" class="uk-form-label">過去の{{str_replace("参加申込","",$title)}}参加状況</label>
+                        @endif
                     </td>
                     <td style="border:none;">
                         <div class="uk-form-contorls ">
                             <div style="padding-top:10px;">
-                                以下の{{str_replace("参加申込","",$title)}}に参加された方はチェックを入れていただくと、今回の参加費が割引になります。
+                                @if ($event->discountNote)
+                                    {{$event->discountNote}}
+                                @else
+                                    以下の{{str_replace("参加申込","",$title)}}に参加された方はチェックを入れていただくと、今回の参加費が割引になります。
+                                @endif
                             </div>
                             <div class="uk-grid-small uk-child-width-auto uk-grid ">
                                 <div class="uk-margin-small-top">

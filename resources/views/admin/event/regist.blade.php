@@ -319,8 +319,14 @@
                             割引名
                             <input class="uk-input uk-form-width-medium uk-form-small" type="text" name="discountText" value="{{old('discountText',$discountText)}}" >
                         </div>
-
-
+                        <div class="uk-margin-small-top" />
+                            割引タイトル
+                            <input class="uk-input uk-form-width uk-form-small" type="text" style="width:50%;" name="discountTitle" value="{{old('discountTitle',$discountTitle)}}" >
+                        </div>
+                        <div class="uk-margin-small-top" />
+                            割引説明文
+                            <input class="uk-input uk-form-width uk-form-small" type="text" name="discountNote" value="{{old('discountNote',$discountNote)}}" >
+                        </div>
                     </div>
                     <h3>説明文</h3>
                     <textarea name="sanka_explain" class="uk-textarea">{{old('sanka_explain',$sanka_explain)}}</textarea>

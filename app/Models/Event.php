@@ -118,6 +118,8 @@ class Event extends Model
         $obj->discountFlag = $request->discountFlag;
         $obj->discountRate = sprintf("%d",$request->discountRate);
         $obj->discountText = ($request->discountText)?$request->discountText:"";
+        $obj->discountTitle = ($request->discountTitle)?$request->discountTitle:"";
+        $obj->discountNote = ($request->discountNote)?$request->discountNote:"";
         $obj->event_info = $request->event_info;
         $obj->date_start = $request->date_start;
         $obj->date_start_time = $request->date_start_time1 . ":" . $request->date_start_time2;
@@ -172,6 +174,8 @@ class Event extends Model
         $set['discountFlag'] = ($param->discountFlag) ?? "";
         $set['discountText'] = ($param->discountText) ?? "";
         $set['discountRate'] = ($param->discountRate) ?? "";
+        $set['discountTitle'] = ($param->discountTitle) ?? "";
+        $set['discountNote'] = ($param->discountNote) ?? "";
         $set['event_info'] = ($param->event_info) ?? "";
         $set['date_start'] = ($param->date_start) ?? "";
         $set['date_end'] = ($param->date_end) ?? "";
@@ -267,6 +271,8 @@ class Event extends Model
                 $lists[$value->id]['discountFlag'] = $value->discountFlag;
                 $lists[$value->id]['discountText'] = $value->discountText;
                 $lists[$value->id]['discountRate'] = $value->discountRate;
+                $lists[$value->id]['discountTitle'] = $value->discountTitle;
+                $lists[$value->id]['discountNote'] = $value->discountNote;
                 $lists[$value->id]['category_type'] = $value->category_type;
                 $lists[$value->id]['date_start'] = $value->date_start;
                 $lists[$value->id]['date_end'] = $value->date_end;
@@ -289,7 +295,7 @@ class Event extends Model
         //次回のイベント一覧
         $now = date("Y-m-d");
         $events = Event::select([
-            'events.id', 'events.sponser', 'events.name', 'events.discountFlag', 'events.discountText', 'events.discountRate','events.event_info', 'events.category_type', 'events.code', 'events.event_type', 'events.coworker', 'events.date_start', 'events.date_end', 'events.place', 'events.event_address', 'events.party', 'events.party_address', 'events.bank_name', 'events.bank_code', 'events.sanka_explain', 'events.other'
+            'events.id', 'events.sponser', 'events.name', 'events.discountFlag', 'events.discountText', 'events.discountRate', 'events.discountTitle', 'events.discountNote','events.event_info', 'events.category_type', 'events.code', 'events.event_type', 'events.coworker', 'events.date_start', 'events.date_end', 'events.place', 'events.event_address', 'events.party', 'events.party_address', 'events.bank_name', 'events.bank_code', 'events.sanka_explain', 'events.other'
         ])
             ->where('events.status', 1)
             // ->where('events.date_start','>=', $now)
@@ -306,6 +312,8 @@ class Event extends Model
                 $lists[$value->id]['discountFlag'] = $value->discountFlag;
                 $lists[$value->id]['discountRate'] = $value->discountRate;
                 $lists[$value->id]['discountText'] = $value->discountText;
+                $lists[$value->id]['discountTitle'] = $value->discountTitle;
+                $lists[$value->id]['discountNote'] = $value->discountNote;
                 $lists[$value->id]['event_info'] = $value->event_info;
                 $lists[$value->id]['category_type'] = $value->category_type;
                 $lists[$value->id]['date_start'] = $value->date_start;
