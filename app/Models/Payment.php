@@ -13,7 +13,7 @@ class Payment extends Model
     public static function setPayment($type = 1,$uid=""){
         //1月以降当年のデータが無ければ追加を行う
         $year = date("Y");
-        $month = date("m");
+        $month = date("n");
         $user= Auth::user();
         if($uid) $user->id = $uid;
         $payment = Payment::where([
@@ -21,7 +21,7 @@ class Payment extends Model
             'years'=>$year,
             'uid'=>$user->id,
             ])->first();
-        if(!isset($payment->id) && $month >= 1){
+        if(!isset($payment->id) && $month > 1){
             Payment::insert([
                 'type'=>$type,
                 'years'=>$year,
