@@ -10,8 +10,12 @@
 <script>
     var msg = document.getElementById("message").value;
     alert(msg);
+
+    /*
     var href = document.getElementById("href").value;
     location.href=href;
+    */
+   location.href="https://pacd.jp/camera/";
 </script>
 
 
