@@ -197,7 +197,7 @@ textarea::-ms-input-placeholder {
                     <li class="uk-margin-left sp"><a href="{{ route('admin.kyosan.event.list') }}"><span class="uk-margin-small-right uk-icon" uk-icon="location"></span>{{config('pacd.category.kyosan.name')}}</a></li>
                     <li class="uk-margin-left sp"><a href="{{ route('admin.kosyukai.event.list') }}"><span class="uk-margin-small-right uk-icon" uk-icon="file-edit"></span>{{config('pacd.category.kosyukai.name')}}</a></li>
                     <li class="uk-margin-left sp"><a href="{{ route('admin.pages.index') }}"><span class="uk-margin-small-right uk-icon" uk-icon="world"></span>公開ページ管理</a></li>
-                    <li class="uk-margin-left"><a href="{{ route('admin.qrhome') }}" target=_blank><span class="uk-margin-small-right uk-icon" uk-icon="camera"></span>QRコードリーダ</a></li>
+                    <li class="uk-margin-left"><a href="https://pacd.jp/camera/" target=_blank><span class="uk-margin-small-right uk-icon" uk-icon="camera"></span>QRコードカメラ</a></li>
                 @endif
             </ul>
         </aside>

@@ -56,10 +56,13 @@
         </style>
     </head>
     <body>
+        <h2 style="margin-top: 30px">
+            必ず管理画面でログインした状態のブラウザを利用してください。
+        </h2>
         <div id="loadingMessage">カメラの用意をしてください</div>
         <canvas id="canvas" hidden></canvas>
         <div id="output" hidden>
-            <div id="outputMessage">No QR code detected.</div>
+            <div id="outputMessage">QRコード読み取り結果</div>
             <div hidden><b>Data:</b> <span id="outputData"></span></div>
         </div>
         <script>
