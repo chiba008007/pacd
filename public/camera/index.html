@@ -73,7 +73,7 @@
             var outputContainer = document.getElementById("output");
             var outputMessage = document.getElementById("outputMessage");
             var outputData = document.getElementById("outputData");
-
+            var flag = true;
             function drawLine(begin, end, color) {
                 canvas.beginPath();
                 canvas.moveTo(begin.x, begin.y);
@@ -148,8 +148,9 @@
                         outputData.parentElement.hidden = false;
                         outputData.innerText = code.data;
                         //alert(code.data);
-                        if (code.data) {
+                        if (code.data && flag) {
                             location.href = code.data;
+                            flag = false;
                         }
                     } else {
                         outputMessage.hidden = false;

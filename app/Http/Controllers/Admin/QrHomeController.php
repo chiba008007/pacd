@@ -49,7 +49,7 @@ class QrHomeController extends Controller
         if($flg == 1){
             $msg = "受付に成功しました";
         }else{
-            $error = "受付に失敗しました";
+            $msg = "受付に失敗しました";
         }
         /*
         if(Attendee::where('id',$attend_id)->where('event_id',$event_id)->where('user_id',$user_id)->update(['join_status'=>1])){
@@ -63,7 +63,7 @@ class QrHomeController extends Controller
         $set[ 'error'   ] = $error;
         */
         $set[ 'message' ] = $msg;
-        $set[ 'error'   ] = $error;
+       // $set[ 'error'   ] = $error;
         return view('admin.joinStatusResult', $set);
     }
 }
