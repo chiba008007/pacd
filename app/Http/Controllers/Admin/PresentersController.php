@@ -136,11 +136,24 @@ class PresentersController extends Controller
             'presentations.proceeding_flag as proceeding_flag',
             'presentations.flash_flag as flash_flag',
             'presentations.poster_flag as poster_flag',
+            'presentations.enjya1',
+            'presentations.syozoku1',
+            'presentations.enjya2',
+            'presentations.syozoku2',
+            'presentations.enjya3',
+            'presentations.syozoku3',
+            'presentations.enjya4',
+            'presentations.syozoku4',
+            'presentations.enjya5',
+            'presentations.syozoku5',
+            'presentations.enjya6',
+            'presentations.syozoku6',
+            'presentations.enjya_other',
             )
             ->where('events.category_type', $this->category['key'])
             ->leftJoin('attendees', 'attendees.id', '=', 'presenters.attendee_id')
             ->leftJoin('events', 'events.id', '=', 'attendees.event_id')
-            ->leftJoin('presentations', 'presentations.presenter_id', '=', 'presenters.id')
+            ->Join('presentations', 'presentations.presenter_id', '=', 'presenters.id')
             ->Join('users', 'attendees.user_id', '=', 'users.id');
         if ($request->code) {
             $query->where('events.code', $request->code);
@@ -487,7 +500,8 @@ class PresentersController extends Controller
             return redirect()->back()->withInput()->with('flash.error', $this->form['display_name'] . '情報の更新に失敗しました。');
         }
 
-        return $this->redirectIndex()->with('flash.success', $this->form['display_name'] . '情報を更新しました。');
+        // return $this->redirectIndex()->with('flash.success', $this->form['display_name'] . '情報を更新しました。');
+        return redirect()->back()->with('flash.success', '情報を更新しました。');
     }
 
     // 削除処理（DELETE）
@@ -620,17 +634,103 @@ class PresentersController extends Controller
 
         if($this->form['category_prefix'] == "touronkai"){
             //法人会員(担当窓口）
-            $header[2] = ["参加イベント","発表番号","講演者番号","題目","講演演者","所属","発表概要","参加者番号","ID","会員種別","法人会員番号","法人名","郵便番号","法人住所","所属部署","担当者氏名","担当者氏名かな","担当者電話番号","担当者メールアドレス","メールアドレス公開"];
-
-            $header[3] = ["参加イベント","発表番号","講演者番号","題目","講演演者","所属","発表概要","参加者番号","ID","会員種別","法人会員番号","法人名","郵便番号","法人住所","所属部署","担当者氏名","担当者氏名かな","担当者電話番号","担当者メールアドレス","メールアドレス公開"];
-
-            $header[4] = ["参加イベント","発表番号","講演者番号","題目","講演演者","所属","発表概要","参加者番号","ID","会員種別","個人会員番号","郵便番号","所属住所","所属","氏名","ふりがな","電話番号","メールアドレス","メールアドレス公開"];
-
-            $header[1] = ["参加イベント","発表番号","講演者番号","題目","講演演者","所属","発表概要","参加者番号","ID","会員種別","郵便番号","所属住所","所属","氏名","ふりがな","協賛学会所属の有無","電話番号","メールアドレス"];
-
-            $header[5] = ["参加イベント","発表番号","講演者番号","題目","講演演者","所属","発表概要","参加者番号","ID","会員種別","郵便番号","所属住所","所属","氏名","ふりがな","協賛学会所属の有無","電話番号","メールアドレス"];
+            $header[2] = ["参加イベント","発表番号","講演者番号","題目"
+            ,"発表者1"
+            ,"所属1"
+            ,"発表者2"
+            ,"所属2"
+            ,"発表者3"
+            ,"所属3"
+            ,"発表者4"
+            ,"所属4"
+            ,"発表者5"
+            ,"所属5"
+            ,"発表者6"
+            ,"所属6"
+            ,"備考"
             
-            $header[6] = ["参加イベント","発表番号","講演者番号","題目","講演演者","所属","発表概要","参加者番号","ID","会員種別","郵便番号","所属住所","所属","氏名","ふりがな","協賛学会所属の有無","電話番号","メールアドレス"];
+            
+            ,"発表概要","参加者番号","ID","会員種別","法人会員番号","法人名","郵便番号","法人住所","所属部署","担当者氏名","担当者氏名かな","担当者電話番号","担当者メールアドレス","メールアドレス公開"];
+
+            $header[3] = ["参加イベント","発表番号","講演者番号","題目"
+            ,"発表者1"
+            ,"所属1"
+            ,"発表者2"
+            ,"所属2"
+            ,"発表者3"
+            ,"所属3"
+            ,"発表者4"
+            ,"所属4"
+            ,"発表者5"
+            ,"所属5"
+            ,"発表者6"
+            ,"所属6"
+            ,"備考"
+            ,"発表概要","参加者番号","ID","会員種別","法人会員番号","法人名","郵便番号","法人住所","所属部署","担当者氏名","担当者氏名かな","担当者電話番号","担当者メールアドレス","メールアドレス公開"];
+
+            $header[4] = ["参加イベント","発表番号","講演者番号","題目"
+            ,"発表者1"
+            ,"所属1"
+            ,"発表者2"
+            ,"所属2"
+            ,"発表者3"
+            ,"所属3"
+            ,"発表者4"
+            ,"所属4"
+            ,"発表者5"
+            ,"所属5"
+            ,"発表者6"
+            ,"所属6"
+            ,"備考"
+            ,"発表概要","参加者番号","ID","会員種別","個人会員番号","郵便番号","所属住所","所属","氏名","ふりがな","電話番号","メールアドレス","メールアドレス公開"];
+
+            $header[1] = ["参加イベント","発表番号","講演者番号","題目"
+            ,"発表者1"
+            ,"所属1"
+            ,"発表者2"
+            ,"所属2"
+            ,"発表者3"
+            ,"所属3"
+            ,"発表者4"
+            ,"所属4"
+            ,"発表者5"
+            ,"所属5"
+            ,"発表者6"
+            ,"所属6"
+            ,"備考"
+            ,"発表概要","参加者番号","ID","会員種別","郵便番号","所属住所","所属","氏名","ふりがな","協賛学会所属の有無","電話番号","メールアドレス"];
+
+            $header[5] = ["参加イベント","発表番号","講演者番号","題目"
+            ,"発表者1"
+            ,"所属1"
+            ,"発表者2"
+            ,"所属2"
+            ,"発表者3"
+            ,"所属3"
+            ,"発表者4"
+            ,"所属4"
+            ,"発表者5"
+            ,"所属5"
+            ,"発表者6"
+            ,"所属6"
+            ,"備考"
+            ,"発表概要","参加者番号","ID","会員種別","郵便番号","所属住所","所属","氏名","ふりがな","協賛学会所属の有無","電話番号","メールアドレス"];
+            
+            $header[6] = ["参加イベント","発表番号","講演者番号","題目"
+            ,"発表者1"
+            ,"所属1"
+            ,"発表者2"
+            ,"所属2"
+            ,"発表者3"
+            ,"所属3"
+            ,"発表者4"
+            ,"所属4"
+            ,"発表者5"
+            ,"所属5"
+            ,"発表者6"
+            ,"所属6"
+            ,"備考"
+            ,"発表概要","参加者番号","ID","会員種別","郵便番号","所属住所","所属","氏名","ふりがな","協賛学会所属の有無","電話番号","メールアドレス"];
         }else{
             //法人会員(担当窓口）
             $header[2] = ["参加イベント","発表番号","講演者番号","講演内容","参加者番号","ID","会員種別","法人会員番号","法人名","郵便番号","法人住所","所属部署","担当者氏名","担当者氏名かな","担当者電話番号","担当者メールアドレス","メールアドレス公開"];
@@ -671,8 +771,15 @@ class PresentersController extends Controller
                         $clum[] = "=\"".sprintf("%010d",$value->id)."\"";
                         if($this->form['category_prefix'] == "touronkai"){
                             $clum[] = isset($presentation->daimoku) ? htmlspecialchars($presentation->daimoku):"";
-                            $clum[] = isset($presentation->enjya) ? htmlspecialchars($presentation->enjya):"";
-                            $clum[] = isset($presentation->syozoku) ? htmlspecialchars($presentation->syozoku):"";
+                            // $clum[] = isset($presentation->enjya) ? htmlspecialchars($presentation->enjya):"";
+                            // $clum[] = isset($presentation->syozoku) ? htmlspecialchars($presentation->syozoku):"";
+                            for($i=1;$i<=6;$i++){
+                                $key = "enjya".$i;
+                                $key2 = "syozoku".$i;
+                                $clum[] = isset($presentation->$key) ? htmlspecialchars($presentation->$key):"";
+                                $clum[] = isset($presentation->$key2) ? htmlspecialchars($presentation->$key2):"";
+                            }
+                            $clum[] = isset($presentation->enjya_other) ? htmlspecialchars($presentation->enjya_other):"";
                             $clum[] = isset($presentation->gaiyo) ? htmlspecialchars($presentation->gaiyo):"";
                         }else{
                             $clum[] = isset($presentation->description) ? htmlspecialchars($presentation->description):"";

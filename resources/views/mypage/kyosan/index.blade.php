@@ -22,8 +22,9 @@
                 <h4 class="uk-width-1-1 border-bottom">{{ $attendee->event->name }}</h4>
                 <div class="uk-margin-left">
                     <div class="uk-grid-small  uk-text-center" uk-grid>
+                        @if($attendee->event->attendFlag) 
                         <div class="uk-width-1-6@m"><a href="{{ route('kyosan_attendee.edit', $attendee->id) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap">参加者情報変更</a></div>
-
+                        @endif
                         @if($attendee->event->presenter_flag == 1)
                         <div class="uk-width-1-6@m"><a href="{{ route('kyosan_presenter', $attendee->id) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap">講演申し込み</a></div>
                         @endif

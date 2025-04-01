@@ -476,6 +476,20 @@ class AttendeesController extends Controller
         exit();
     }
 
+    // 状態切替
+    public function changeFlag(Request $request)
+    {
+
+        header('Content-Type: application/json');
+        $postData = $request->all();
+        $record = Event::find($postData[ 'chk' ]);
+        if($postData[ 'id' ] === 'attendFlag' ) $record->attendFlag = ($postData[ 'val' ] == 'true')?1:0;
+        if($postData[ 'id' ] === 'speakerFlag' ) $record->speakerFlag = ($postData[ 'val' ] == 'true')?1:0;
+        if($postData[ 'id' ] === 'speakerMenuFlag' ) $record->speakerMenuFlag = ($postData[ 'val' ] == 'true')?1:0;
+        
+        $record->save();
+        echo json_encode(['success' => $postData]);
+    }
     //CSVダウンロード
     public function csvdownload(Request $request)
     {

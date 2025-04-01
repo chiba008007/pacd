@@ -21,6 +21,7 @@ class KyosanController extends Controller
         $user = Auth::user();
         $set['title'] = config('pacd.category.kyosan.name') . ' マイページ';
         $set['attendees'] = Attendee::select(['attendees.*','events.join_enable'])
+            ->orderBy('events.name',"DESC")
             ->join('events', 'events.id', '=', 'attendees.event_id')
             ->where([
                 'user_id' => $user->id,

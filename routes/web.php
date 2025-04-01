@@ -458,4 +458,7 @@ Route::group(['prefix' => config('admin.uri'), 'middleware' => 'auth:admin', 'as
     Route::post('/{category_prefix}/kyosan/mail/send', [\App\Http\Controllers\Admin\MailController::class, 'send'])->name('kyosan.mail.send');
     Route::get('/{category_prefix}/kyosan/mail/delete/{id?}', [\App\Http\Controllers\Admin\MailController::class, 'delete'])->name('kyosan.mail.delete');
     Route::get('/{category_prefix}/kyosan/mail/mailsend/{id?}', [\App\Http\Controllers\Admin\MailController::class, 'mailsend'])->name('kyosan.mail.mailsend');
+
+    // 状態切替
+    Route::post('/{category_prefix}/attendees/changeFlag', [\App\Http\Controllers\Admin\AttendeesController::class, 'changeFlag'])->name('attendee.changeFlag');
 });

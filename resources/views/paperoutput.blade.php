@@ -20,7 +20,10 @@
         body {
             font-family: ipag;
         }
-
+        body, html {
+            margin: 0;
+            padding: 0;
+        }
         .mt20 {
             margin-top: 20px;
         }
@@ -54,19 +57,27 @@
         }
 
         .card {
-            width: 91mm;
-            height: 55mm;
+            width: 300px;
+            height: 270px;
             border: 1px solid #000;
-            margin: 0 auto;
-            padding: 20px 10px;
-            position: relative;
+            margin: 0px auto;
+            padding: 0px 0px;
+            position: absolute;
         }
 
         .bottom {
             position: absolute;
-            bottom: 0;
+            top: 270px;
             left: auto;
             right: 0;
+        }
+        .bottom2 {
+            position: absolute;
+            bottom: 0;
+            width:300px;
+            left: 0px;
+            right: 0;
+            text-align:left;
         }
     </style>
 </head>
@@ -97,11 +108,7 @@
 
         <div style="page-break-after: always"></div>
         <div class="mt20">
-            <p style="text-align:left;display:block;width:360px;margin:0 auto;">
-                当日は名札入れをお配りしますので、<br>
-                こちらの枠線で切り取って名札としてお使いください。
-            </p>
-            <div class="card text-center" style="margin-top:30px;">
+            <div class="card text-center" style="margin-left:0px;margin-top:30px;">
                 <div class="mt20 f18">
                     {{$event->name}}
                 </div>
@@ -119,6 +126,9 @@
 
                 </div>
                 <div class="bottom">{{$event_number}}</div>
+                <div class="bottom2">
+                    当日の名札として使用しますので印刷して<br />お持ちください。
+                </div>
             </div>
         </div>
     </div>

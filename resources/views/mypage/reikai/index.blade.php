@@ -22,9 +22,10 @@
                 <h4 class="uk-width-1-1 border-bottom">{{ $attendee->event->name }}（{{ $attendee->event->date_start }}～{{ $attendee->event->date_end }}）</h4>
                 <div class="uk-margin-left">
                     <div class="uk-grid-small  uk-text-center" uk-grid>
+                        @if($attendee->event->attendFlag) 
                         <div class="uk-width-1-6@m"><a href="{{ route('reikai_attendee.edit', $attendee->id) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap">参加者情報確認</a></div>
-
-                        @if($attendee->event->presenter_flag == 1)
+                        @endif
+                        @if($attendee->event->presenter_flag == 1 && $attendee->event->speakerFlag == 1)
                         {{--個人会員・会員外以外--}}
                         {{--例会はグレーアウトにして、申し込みできないようにする--}}
                         {{--0329対応--}}
@@ -38,7 +39,7 @@
                         <div class="uk-width-1-6@m">
                         <a href="{{ route('event.webex', $attendee->event->code) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap" >プログラム</a>
                         </div>
-                        @if ($attendee->presenters->count())
+                        @if ($attendee->presenters->count() && $attendee->event->speakerMenuFlag == 1)
                             <div class="uk-width-1-6@m"><a href="" uk-toggle="target: #presenter_menu_{{ $attendee->id }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap" >講演者メニュー</a></div>
                         @endif
                         {{-- 参加料金を　無効にする　を選択した場合ダウンロードアイコンは見えなくする --}}
@@ -56,10 +57,11 @@
                                 @endif
                             </div>
                         @endif
+                        @if($attendee->event->date_start <= now()->format('Y-m-d') && now()->format('Y-m-d') <= $attendee->event->date_end )
                         <div class="uk-width-1-6@m">
                             <a href="{{ route('event.paper', $attendee->event->code) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap" target=_blank>参加証</a>
                         </div>
-
+                        @endif
                     </div>
                     @if ($attendee->presenters->count())
                         <table class="uk-table uk-table-responsive uk-table-small uk-text-center" id="presenter_menu_{{ $attendee->id }}" hidden>

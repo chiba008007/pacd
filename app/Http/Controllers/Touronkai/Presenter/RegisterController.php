@@ -83,6 +83,7 @@ class RegisterController extends Controller
             DB::commit();
             Log::info("【" . $this->form['display_name'] . "登録】presenter_id:$presenter->id");
             //presentation用空データ登録
+
             $presentationSet = [];
             $presentationSet[ 'presenter_id' ] = $presenter->id;
             $presentationSet[ 'description' ] = $request->description;
@@ -90,6 +91,14 @@ class RegisterController extends Controller
             $presentationSet[ 'enjya' ] = $request->enjya;
             $presentationSet[ 'syozoku' ] = $request->syozoku;
             $presentationSet[ 'gaiyo' ] = $request->gaiyo;
+            $presentationSet[ 'enjya_other' ] = $request->enjya_other;
+            for($i=1;$i<=6;$i++){
+                $key = "enjya".$i;
+                $key2 = "syozoku".$i;
+                $presentationSet[ $key ] = $request->$key;
+                $presentationSet[ $key2 ] = $request->$key2;
+            }
+
             Presentation::create($presentationSet);
 
             //メール配信

@@ -22,14 +22,15 @@
                 <h4 class="uk-width-1-1 border-bottom">{{ $attendee->event->name }}（{{ $attendee->event->date_start }}～{{ $attendee->event->date_end }}）</h4>
                 <div class="uk-margin-left">
                     <div class="uk-grid-small  uk-text-center" uk-grid>
+                        @if($attendee->event->attendFlag) 
                         <div class="uk-width-1-6@m"><a href="{{ route('touronkai_attendee.edit', $attendee->id) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap">参加者情報変更</a></div>
-
-                        @if($attendee->event->presenter_flag == 1)
+                        @endif
+                        @if($attendee->event->presenter_flag == 1 && $attendee->event->speakerFlag == 1)
                         <div class="uk-width-1-6@m"><a href="{{ route('touronkai_presenter', $attendee->id) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap">講演申し込み</a></div>
                         @endif
 
                         <div class="uk-width-1-6@m"><a href="{{ route('event.webex', $attendee->event->code) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap" >プログラム</a></div>
-                        @if ($attendee->presenters->count())
+                        @if ($attendee->presenters->count()  && $attendee->event->speakerMenuFlag == 1)
                             <div class="uk-width-1-6@m"><a href="" uk-toggle="target: #presenter_menu_{{ $attendee->id }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap">講演者メニュー</a></div>
                         @endif
                         {{-- 参加料金を　無効にする　を選択した場合ダウンロードアイコンは見えなくする --}}

@@ -21,6 +21,7 @@ class KosyukaiController extends Controller
         $user = Auth::user();
         $set['title'] = config('pacd.category.kosyukai.name') . ' マイページ';
         $set['attendees'] = Attendee::select(['attendees.*','events.join_enable'])
+            ->orderBy('events.id',"DESC")
             ->join('events', 'events.id', '=', 'attendees.event_id')
             ->where([
                 'user_id' => $user->id,

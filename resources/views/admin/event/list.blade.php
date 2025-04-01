@@ -36,8 +36,9 @@
                     <tr>
                         <th class="uk-table-expand" style="width:350px;">詳細</th>
                         <th >イベントコード</th>
-                        <th>イベント名</th>
+                        <th style="width:300px;">イベント名</th>
                         <th class="uk-table-shrink">受付中</th>
+                        <th style="width:200px;" class="uk-table-shrink">表示判定</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,6 +83,27 @@
                                 <div class="swImg"></div>
                             </div>
                         </td>
+                        <td>
+                            
+                            @php $checked = [0,0,0]; @endphp
+                            @if($event->attendFlag == 1)
+                                @php $checked[0] = "checked"; @endphp
+                            @endif
+                            @if($event->speakerFlag == 1)
+                                @php $checked[1] = "checked"; @endphp
+                            @endif
+                            @if($event->speakerMenuFlag == 1)
+                                @php $checked[2] = "checked"; @endphp
+                            @endif
+                            <input type="checkbox" id="attendFlag-{{$event->id}}" class="onClick"  {{$checked[0]}} />
+                            <label for="attendFlag-{{$event->id}}" >参加者情報確認</label><br  />
+                            @if($category_prefix != 'kyosan')
+                                <input type="checkbox"  id="speakerFlag-{{$event->id}}" class="onClick" {{$checked[1]}} />
+                                <label for="speakerFlag-{{$event->id}}">講演申し込み</label><br />
+                                <input type="checkbox"  id="speakerMenuFlag-{{$event->id}}" class="onClick" {{$checked[2]}} />
+                                <label for="speakerMenuFlag-{{$event->id}}">講演者メニュー</label>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -93,4 +115,34 @@
 
 @section('footer')
     <script src="{{ asset('js/admin/event.js') }}"></script>
+    <script type="text/javascript" >
+    $(function(){
+        $(".onClick").click(function(){
+            var id = $(this).attr("id").split("-");
+            var val = $(this).prop("checked");
+             let postData = {
+                id: id[0],
+                chk: id[1],
+                val: val
+            };
+            $.ajax({
+                url: '../attendees/changeFlag',  // サーバーにリクエストを送る URL
+                type: 'POST',       // リクエストの種類（GET）
+                dataType: 'json',  // レスポンスの形式（JSON）
+                data:postData,
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+            })
+            .done((result) => {
+                console.log(result);
+            })
+            .fail ((error) => {
+                console.log("データ更新エラー");
+                console.log(error);
+            });
+return true;
+        });
+    });
+    </script>
 @endsection

@@ -115,6 +115,35 @@
                         </div>
                         <div class="uk-margin">
                             <label class="uk-form-label uk-text-left" for="description">
+                                発表者/所属
+                            </label>
+                            <div class="uk-form-controls">
+                            <p>ポスター発表者は発表者1、所属1へ記入。所属1は先頭に「○」をつけること（記入例）○高分子大学</p>
+                                <table class="uk-table" >
+                                    <tr>
+                                        <th colspan=2>発表者</th>
+                                        <th colspan=2>所属</th>
+                                    </tr>
+                                    @for($i=1;$i<=6;$i++)
+                                    <tr>
+                                        <td>発表者{{$i}}</td>
+                                        <td>
+                                            <input type="text" class="uk-input " name="enjya{{$i}}" value="" >
+                                        </td>
+                                        <td>所属{{$i}}</td>
+                                        <td>
+                                            <input type="text" class="uk-input " name="syozoku{{$i}}" value="" >
+                                        </td>
+                                    </tr>
+                                    @endfor
+                                </table>
+                            <p>発表者、所属が書ききれない場合は、こちらに記入ください。氏名、所属の順で記入。</p>
+                            <textarea name="enjya_other" class="uk-textarea" rows="3" placeholder="記入例）氏名、所属の順で記入。">{{ old() ? old('enjya_other') : @$presentation->enjya_other }}</textarea>
+                            </div>
+                        </div>
+                        {{--
+                        <div class="uk-margin">
+                            <label class="uk-form-label uk-text-left" for="description">
                                 発表演者
                             </label>
                             <div class="uk-form-controls">
@@ -142,6 +171,7 @@
                                 @enderror
                             </div>
                         </div>
+                        --}}
                         <div class="uk-margin">
                             <label class="uk-form-label uk-text-left" for="description">
                                 発表概要

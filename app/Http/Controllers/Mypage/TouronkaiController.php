@@ -21,6 +21,7 @@ class TouronkaiController extends Controller
         $user = Auth::user();
         $set['title'] = config('pacd.category.touronkai.name') . ' マイページ';
         $set['attendees'] = Attendee::select(['attendees.*','events.join_enable'])
+            ->orderBy('events.date_start',"DESC")
             ->join('events', 'events.id', '=', 'attendees.event_id')
             ->where([
                 'user_id' => $user->id,
