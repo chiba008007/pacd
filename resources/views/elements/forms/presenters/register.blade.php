@@ -75,7 +75,7 @@
                         </tr>
                         @for($i=1;$i<=6;$i++)
                         <tr>
-                            <td>発表者</td>
+                            <td>発表者{{$i}}</td>
                             <td>
                                 <input type="text" class="uk-input " name="enjya{{$i}}" value="{{ $event->{'enjya' . $i} }}" >
                             </td>

@@ -49,7 +49,11 @@
                             </div>
                         @endif
                         <div class="uk-width-1-6@m">
-                            <a href="{{ route('event.paper', $attendee->event->code) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap" target=_blank>参加証</a>
+                        @if($attendee->event->date_end >= date('Y-m-d'))
+                            <a href="{{ route('event.paper', $attendee->event->code) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap" target=_blank >参加証</a>
+                        @else
+                            <button class="uk-button uk-button-default" disabled>参加証</button>
+                        @endif
                         </div>
                     </div>
                     @if ($attendee->presenters->count())

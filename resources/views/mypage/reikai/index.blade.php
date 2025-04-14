@@ -39,13 +39,14 @@
                         <div class="uk-width-1-6@m">
                         <a href="{{ route('event.webex', $attendee->event->code) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap" >プログラム</a>
                         </div>
+
                         @if ($attendee->presenters->count() && $attendee->event->speakerMenuFlag == 1)
                             <div class="uk-width-1-6@m"><a href="" uk-toggle="target: #presenter_menu_{{ $attendee->id }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap" >講演者メニュー</a></div>
                         @endif
                         {{-- 参加料金を　無効にする　を選択した場合ダウンロードアイコンは見えなくする --}}
                         @if($attendee->event->join_enable == 1)
-                            <div class="uk-width-1-6@m" >
-                                @if($attendee->is_enabled_invoice == 1)
+                            @if($attendee->is_enabled_invoice == 1)
+                                <div class="uk-width-1-6@m" >
                                     @if($attendee->recipe_date)
                                         <button class="uk-button uk-button-default" disabled>領収書発行済</button>
                                     @else
@@ -54,14 +55,17 @@
                                         @else 請求書 @endif
                                         </a>
                                     @endif
-                                @endif
-                            </div>
+                                </div>
+                            @endif
                         @endif
-                        @if($attendee->event->date_start <= now()->format('Y-m-d') && now()->format('Y-m-d') <= $attendee->event->date_end )
                         <div class="uk-width-1-6@m">
+                        @if($attendee->event->date_start <= now()->format('Y-m-d') && now()->format('Y-m-d') <= $attendee->event->date_end )
                             <a href="{{ route('event.paper', $attendee->event->code) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap" target=_blank>参加証</a>
-                        </div>
+                        @else
+                            <button class="uk-button uk-button-default" disabled>参加証</button>
                         @endif
+                        </div>
+
                     </div>
                     @if ($attendee->presenters->count())
                         <table class="uk-table uk-table-responsive uk-table-small uk-text-center" id="presenter_menu_{{ $attendee->id }}" hidden>

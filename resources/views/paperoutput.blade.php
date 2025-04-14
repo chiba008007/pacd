@@ -104,6 +104,9 @@
         </div>
         <div class="mt30">
             <img src="https://api.qrserver.com/v1/create-qr-code/?data={{$url}}" alt="QRコード" width=250 />
+            <p>
+                参加初日に受付へご提出ください
+            </p>
         </div>
 
         <div style="page-break-after: always"></div>

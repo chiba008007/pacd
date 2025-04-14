@@ -71,7 +71,7 @@
 
                         </td>
                         <td>{{$event->code}}</td>
-                        <td>{{$event->name}} 企業協賛</td>
+                        <td>{{$event->name}}</td>
                         <td>
                             <div class="switchArea">
                                 <?php $checked = "";?>
