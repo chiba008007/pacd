@@ -115,6 +115,7 @@
                                                 )
                                                     配布資料はございません
                                                 @endif
+                                                
                                                 @if(
                                                     (
                                                     $attendee->doc_dl == 1 &&
@@ -129,6 +130,8 @@
                                                             配布資料1
                                                             @elseif($category_type == 4)
                                                             配布資料1
+                                                            @elseif($category_type == 3)
+                                                            発表要旨（PDF形式）
                                                             @else
                                                             講演要旨
                                                             @endif
@@ -152,6 +155,8 @@
                                                             配布資料2
                                                             @elseif($category_type == 3 &&  $event_id == 238)
                                                             プレゼンテーション資料
+                                                            @elseif($category_type == 3)
+                                                            プレゼン資料（PDF形式）
                                                             @else
                                                             フラッシュプレゼンテーションファイル
                                                             @endif

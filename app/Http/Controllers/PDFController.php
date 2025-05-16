@@ -129,7 +129,61 @@ class PDFController extends Controller
         //ブラウザ上に出力
         return $pdf->stream();
     }
+    
+    public function kyosanInvoice($type,$filecode,$no)
+    {
+        $attend = Attendee::find($filecode);
+        // var_dump($attend);
+        $user_id = $attend->user_id;
+        $user = User::find($user_id);
+        $name = "";
+        if($no == 1) $name = $attend->tenjiSanka1Name;
+        if($no == 2) $name = $attend->tenjiSanka2Name;
 
+        $set = [];
+        $set = [];
+        $set['bank_name'] = config('pacd.bank.name');
+        $set['bank_code'] =  config('pacd.bank.code');
+        $set['invoice_address'] = config('pacd.bank.invoice_address');
+        $set['invoice_memo'] = config('pacd.bank.invoice_memo');
+        $set['recipe_memo'] = config('pacd.bank.recipe_memo');
+        $set['date'] = date("Y年m月d日");
+        $set['cp_name'] = $user->cp_name." ".$name;
+        $set['event_number'] = sprintf("%010d", $attend->event_number);
+        $price = 0;
+        $pdffile = "";
+        $string = "";
+        if($type == "invoice"){
+            $price = ($no==1)?$attend->tenjiSanka1Money:$attend->tenjiSanka2Money;
+            $pdffile = "invoiceKyosan";
+            $string = "展示参加者(討論会での発表無し)";
+        }
+        if($type == "recipe"){
+            $price = ($no==1)?$attend->tenjiSanka1Money:$attend->tenjiSanka2Money;
+            $pdffile = "recipeKyosan";
+            $string = "展示参加者(討論会での発表無し)";
+            
+        }
+        if($type == "konshinkaiInvoice"){
+            $price = ($no==1)?$attend->konsinkaiSanka1Money:$attend->konsinkaiSanka2Money;
+            $pdffile = "invoiceKyosan";
+            $string = "懇親会参加者(討論会での発表無し)";
+        }
+        if($type == "konshinkaiRecipe"){
+            $price = ($no==1)?$attend->konsinkaiSanka1Money:$attend->konsinkaiSanka2Money;
+            $pdffile = "recipeKyosan";
+            $string = "懇親会参加者(討論会での発表無し)";
+        }
+        $set['price'] = number_format($price);
+        $set['string'] = $string;
+        $set['priceTax'] = number_format(floor(($price) * 10 / 110));
+        $set['priceNoTax'] = number_format($price - floor(($price) * 10 / 110));
+
+        
+        $pdf = PDF::loadView($pdffile, $set)->setPaper('a4', '');
+
+        return $pdf->download($pdffile.'.pdf'); 
+    }
     //参加者用
     //$idはカテゴリータイプ
     //$uid,codeは管理画面から

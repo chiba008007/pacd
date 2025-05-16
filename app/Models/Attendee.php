@@ -23,6 +23,18 @@ class Attendee extends Model
         'is_enabled_invoice',
         'discountSelectFlag',
         'discountSelectText',
+        'tenjiSanka1Status',
+        'tenjiSanka1Name',
+        'tenjiSanka1Money',
+        'tenjiSanka2Status',
+        'tenjiSanka2Name',
+        'tenjiSanka2Money',
+        'konsinkaiSanka1Status',
+        'konsinkaiSanka1Name',
+        'konsinkaiSanka1Money',
+        'konsinkaiSanka2Status',
+        'konsinkaiSanka2Name',
+        'konsinkaiSanka2Money'
     ];
 
 

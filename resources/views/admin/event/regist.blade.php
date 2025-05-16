@@ -334,7 +334,7 @@
                     <thead>
                         <tr>
                             <th class="uk-width-small">表示</th>
-                            <th class="uk-width-small">&nbsp;</th>
+                            <th style="width:300px;">&nbsp;</th>
                             <th class="uk-text-left" >項目名</th>
                             <th class="uk-width-small">参加金額</th>
                         </tr>
@@ -347,24 +347,46 @@
                                 <input type="checkbox"  class="uk-checkbox" name="join_status[{{$i}}]" value="1" {{old("join_status.$i") || $join_status[$i] ? "checked" : '' }} />
                             </td>
                             <td>
-                                @foreach(config('pacd.pattern') as $key=>$value)
-                                    <label>
-                                        @php 
-                                            $checked = ""; 
-                                            if($pattern[$i] == $key){
-                                                $checked = "checked";
-                                            }else{
-                                                if(old("pattern.$i") == $key
-                                                    || (!old("pattern.$i") && $key == 1 )
-                                                ){
+                                @if($category_prefix == "kyosan")
+
+                                    @foreach(config('pacd.patternKyosan') as $key=>$value)
+                                        <label>
+                                            @php 
+                                                $checked = ""; 
+                                                if($pattern[$i] == $key){
                                                     $checked = "checked";
+                                                }else{
+                                                    if(old("pattern.$i") == $key
+                                                        || (!old("pattern.$i") && $key == 1 )
+                                                    ){
+                                                        $checked = "checked";
+                                                    }
                                                 }
-                                            }
-                                        @endphp
-                                        <input type="radio" class="uk-radio" value="{{$key}}" name="pattern[{{$i}}]" {{$checked}}  />
-                                        {{$value}}
-                                    </label><br>
-                                @endforeach
+                                            @endphp
+                                            <input type="radio" class="uk-radio" value="{{$key}}" name="pattern[{{$i}}]" {{$checked}}  />
+                                            {{$value}}
+                                        </label><br>
+                                    @endforeach
+                                @else
+                                    @foreach(config('pacd.pattern') as $key=>$value)
+                                        <label>
+                                            @php 
+                                                $checked = ""; 
+                                                if($pattern[$i] == $key){
+                                                    $checked = "checked";
+                                                }else{
+                                                    if(old("pattern.$i") == $key
+                                                        || (!old("pattern.$i") && $key == 1 )
+                                                    ){
+                                                        $checked = "checked";
+                                                    }
+                                                }
+                                            @endphp
+                                            <input type="radio" class="uk-radio" value="{{$key}}" name="pattern[{{$i}}]" {{$checked}}  />
+                                            {{$value}}
+                                        </label><br>
+                                    @endforeach
+                                @endif
                             </td>
                             <td>
                                 <input type="text" name="join_name[{{$i}}]" value="{{old("join_name.$i",$join_name[$i]) }}" class="uk-input" />

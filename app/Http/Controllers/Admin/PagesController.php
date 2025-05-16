@@ -20,7 +20,7 @@ use App\Models\InquireSetting;
 use App\Models\Url;
 use App\Models\eventPassword;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\kyosanTitle;
 class PagesController extends Controller
 {
 
@@ -340,5 +340,34 @@ class PagesController extends Controller
         return redirect(route('admin.pages.url'));
 
 
+    }
+    public function kyosan(){
+        $set = [];
+        $set[ 'title' ] = "協賛企業参加者向け説明文";
+        $set[ 'data' ] = kyosanTitle::first();
+        return view('admin.pages.kyosan', $set);
+    }
+    public function kyosanSet(Request $request){
+        $first = kyosanTitle::select("id")->first();
+        if($first && $first->id){
+            $kyosanTitle = kyosanTitle::find($first->id);
+            $kyosanTitle->update([
+                'tenjikaiTitle' => $request->tenjikaiTitle,
+                'tenjikaiNote' => $request->tenjikaiNote,
+                'konsinkaiTitle' => $request->konsinkaiTitle,
+                'konsinkaiNote' => $request->konsinkaiNote,
+            ]);
+        }else{
+            kyosanTitle::create(
+                [
+                    'tenjikaiTitle' => $request->tenjikaiTitle,
+                    'tenjikaiNote' => $request->tenjikaiNote,
+                    'konsinkaiTitle' => $request->konsinkaiTitle,
+                    'konsinkaiNote' => $request->konsinkaiNote,
+                    'created_at' => date('Y-m-d H:i:s')
+                ]
+            );
+        }
+        return redirect(route('admin.pages.kyosan'));
     }
 }

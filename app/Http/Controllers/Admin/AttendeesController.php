@@ -19,6 +19,7 @@ use App\Models\Mailforms;
 use App\Models\FormInputValue;
 use App\Models\Presenter;
 use App\Models\Presentation;
+use App\Models\kyosanTitle;
 use Response;
 
 use function GuzzleHttp\Promise\all;
@@ -134,8 +135,10 @@ class AttendeesController extends Controller
         if ($events->count() === 0) {
             return redirect()->back()->with('flash.error', '登録可能なイベントがありません。<br>イベントを登録してください。');
         }
+
         $set['category_prefix'] = $category_prefix;
         $set['events'] = $events;
+        $set['kyosanTitle'] = kyosanTitle::first();
         $set['title'] = $this->form['display_name'] . '登録';
         $set['inputs'] = FormInput::where(['form_type' => $this->form['key']])->get();
 
@@ -180,6 +183,7 @@ class AttendeesController extends Controller
             $request->merge(['event_number' => Event::getEventNumber($request->event_id)]);
             //event_join_idは使わないので空欄にする
             unset($request['event_join_id']);
+
             $attendee = Attendee::create($request->all());
             if ($request->custom) {
                 FormDataAttendee::createFromInputData($request->custom, $attendee);
@@ -303,13 +307,33 @@ class AttendeesController extends Controller
     // 参加者情報編集ページ表示
     public function edit($category_prefix, $id)
     {
+
         $set = $this->getMeta();
         $set['title'] = $this->form['display_name'] . '編集';
         $set['attendee'] = $this->attendee;
         $set['user'] = $this->attendee->user;
         $set['event'] = $this->attendee->event;
+        $set['event_joins_status'] = $this->setJoinStatus($this->attendee->event_id);
+        $set['kyosanTitle'] = kyosanTitle::first();
         $set['inputs'] = FormInput::where(['form_type' => $this->form['key']])->get();
         return view('admin.attendees.edit', $set);
+    }
+    //
+    public function setJoinStatus($event_id){
+
+        $event_joins_status3 = Event_join::
+            select(['join_status','join_name','number'])
+            ->where([
+                "event_id" => $event_id, "status" => 1, "pattern" => 3, "join_status"=>1
+            ])->first();
+        $event_joins_status4 = Event_join::
+            select(['join_status','join_name','number'])
+            ->where([
+                "event_id" => $event_id, "status" => 1, "pattern" => 4, "join_status"=>1
+            ])->first();
+        $event_joins_status[3] =  $event_joins_status3;
+        $event_joins_status[4] =  $event_joins_status4;
+        return $event_joins_status;
     }
 
     // 情報更新処理（PUT/PATCH）
@@ -338,6 +362,12 @@ class AttendeesController extends Controller
             if ($category_prefix === "kyosan") {
                 $this->attendee->paydate = $request->paydate;
             }
+
+            if(!$request['tenjiSanka1Status']) $request['tenjiSanka1Status'] = "";
+            if(!$request['tenjiSanka2Status']) $request['tenjiSanka2Status'] = "";
+            if(!$request['konsinkaiSanka1Status']) $request['konsinkaiSanka1Status'] = "";
+            if(!$request['konsinkaiSanka2Status']) $request['konsinkaiSanka2Status'] = "";
+            
             $this->attendee->fill($request->all());
             $this->attendee->save();
             if ($request->custom) {
@@ -522,6 +552,8 @@ class AttendeesController extends Controller
             $c = "講習会支払状況";
         }
 
+        
+
         // 参加料金区分を複数列に分ける
         // イベント名で絞り込みを行ったときのみ
         $sankaryokinkubun = "参加料金区分";
@@ -540,7 +572,20 @@ class AttendeesController extends Controller
         }
 
         $header[] = "参加状況";
-        $header[] = $c;
+        
+
+        if ($this->category['prefix'] == "kyosan") {
+            $header[] = "参加者氏名1";
+            $header[] = "参加者請求金額1";
+            $header[] = "参加者氏名2";
+            $header[] = "参加者請求金額2";
+            $header[] = "懇親会参加氏名1";
+            $header[] = "懇親会参加金額1";
+            $header[] = "懇親会参加氏名2";
+            $header[] = "懇親会参加金額2";
+        }else{
+            $header[] = $c;
+        }
 
         /*
         $header2 = ["ID","会員種別","会員番号","所属","部門","郵便番号","所属住所","担当者氏名","ふりがな","担当者電話番号","担当者メールアドレス","メールアドレス公開","年会費","請求書","領収書","協賛学会所属の有無","参加イベント","参加者番号","参加料金区分","参加料金","参加状況",$c];
@@ -552,8 +597,20 @@ class AttendeesController extends Controller
             $header2[] = "参加料金";
         }
         $header2[] = "参加状況";
-        $header2[] = $c;
+        
 
+        if ($this->category['prefix'] == "kyosan") {
+            $header2[] = "参加者氏名1";
+            $header2[] = "参加者請求金額1";
+            $header2[] = "参加者氏名2";
+            $header2[] = "参加者請求金額2";
+            $header2[] = "懇親会参加氏名1";
+            $header2[] = "懇親会参加金額1";
+            $header2[] = "懇親会参加氏名2";
+            $header2[] = "懇親会参加金額2";
+        }else{
+            $header2[] = $c;
+        }
 
         $users = [];
 
@@ -701,22 +758,28 @@ class AttendeesController extends Controller
                         //     if(in_array($join->id,$explode)) $clumJN[] = $join->join_name;
                         //     if(in_array($join->id,$explode)) $clumJP[] = $join->join_price;
                         // }
-
-                        foreach ($joins as $join) {
-                            if (in_array($join->id, $explode)) {
-                                $clum[] = $join->join_name;
-                            } else {
-                                $clum[] = " ";
+                        if(count($joins) < 1 && $this->category['prefix'] == "kyosan"){
+                            // 協賛企業の場合データが無かった際のスペース埋め
+                            for($i = 0 ; $i <=7; $i++){
+                                $clum[] = "";
                             }
-                            if (in_array($join->id, $explode)) {
-                                if($value->discountSelectFlag == 1 && $value->event->discountRate && $join->pattern == 1){
-                                    $price = $join->join_price * ((100-$value->event->discountRate)/100);
-                                }else{
-                                    $price = $join->join_price;
+                        }else{
+                            foreach ($joins as $join) {
+                                if (in_array($join->id, $explode)) {
+                                    $clum[] = $join->join_name;
+                                } else {
+                                    $clum[] = " ";
                                 }
-                                $clum[] = $price;
-                            } else {
-                                $clum[] = " ";
+                                if (in_array($join->id, $explode)) {
+                                    if($value->discountSelectFlag == 1 && $value->event->discountRate && $join->pattern == 1){
+                                        $price = $join->join_price * ((100-$value->event->discountRate)/100);
+                                    }else{
+                                        $price = $join->join_price;
+                                    }
+                                    $clum[] = $price;
+                                } else {
+                                    $clum[] = " ";
+                                }
                             }
                         }
 
@@ -724,11 +787,20 @@ class AttendeesController extends Controller
                         // $clum[] = implode(' ', $clumJP);
 
                         $clum[] = ($value->join_status == 0) ? "-" : "〇";
-
+                        
                         if ($this->category['prefix'] == "touronkai" || $this->category['prefix'] == "kosyukai") {
                             $clum[] = ($value->is_paid == 0) ? "未払い" : "支払済み";
                         }
-
+                        if ($this->category['prefix'] == "kyosan") {
+                            $clum[] = $value->tenjiSanka1Name;
+                            $clum[] = $value->tenjiSanka1Money;
+                            $clum[] = $value->tenjiSanka2Name;
+                            $clum[] = $value->tenjiSanka2Money;
+                            $clum[] = $value->konsinkaiSanka1Name;
+                            $clum[] = $value->konsinkaiSanka1Money;
+                            $clum[] = $value->konsinkaiSanka2Name;
+                            $clum[] = $value->konsinkaiSanka2Money;
+                        }
 
 
                         $custom_data = $value->custom_form_data->keyBy('form_input_value_id');

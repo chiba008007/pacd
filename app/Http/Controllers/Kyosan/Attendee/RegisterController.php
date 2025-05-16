@@ -19,6 +19,7 @@ use App\Models\Mailforms;
 use App\Models\User;
 use App\Models\FormInput;
 use App\Models\FormInputValue;
+use App\Models\kyosanTitle;
 
 class RegisterController extends Controller
 {
@@ -82,10 +83,11 @@ class RegisterController extends Controller
         }
 
         $set = PagesLibrary::getContents(['route_name' => $this->form['prefix']], $this->event->id);
+        
         $set['event'] = $this->event;
         $set['form'] = $this->form;
         $set['user'] = $this->user;
-
+        $set['kyosanTitle'] = kyosanTitle::first();
         return view('attendee.register', $set);
     }
 
@@ -131,6 +133,20 @@ class RegisterController extends Controller
                 $data['discountSelectFlag'] = $request->discountSelectFlag;
                 $data['discountSelectText'] = $request->discountSelectText;
             }
+
+            $data['tenjiSanka1Status'] = $request->tenjiSanka1Status;
+            $data['tenjiSanka1Name'] = $request->tenjiSanka1Name;
+            $data['tenjiSanka1Money'] = $request->tenjiSanka1Money;
+            $data['tenjiSanka2Status'] = $request->tenjiSanka2Status;
+            $data['tenjiSanka2Name'] = $request->tenjiSanka2Name;
+            $data['tenjiSanka2Money'] = $request->tenjiSanka2Money;
+            $data['konsinkaiSanka1Status'] = $request->konsinkaiSanka1Status;
+            $data['konsinkaiSanka1Name'] = $request->konsinkaiSanka1Name;
+            $data['konsinkaiSanka1Money'] = $request->konsinkaiSanka1Money;
+            $data['konsinkaiSanka2Status'] = $request->konsinkaiSanka2Status;
+            $data['konsinkaiSanka2Name'] = $request->konsinkaiSanka2Name;
+            $data['konsinkaiSanka2Money'] = $request->konsinkaiSanka2Money;
+                        
             $attendee = Attendee::create($data);
 
             if ($request->custom) {

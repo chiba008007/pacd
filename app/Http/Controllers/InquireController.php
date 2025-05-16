@@ -14,7 +14,6 @@ class InquireController extends Controller
     public function index(){
 
         $inquireSetting = InquireSetting::get();
-
         $set = [];
         $set[ 'title' ] = "問合せフォーム";
         $set[ 'inquireSetting' ] = $inquireSetting;

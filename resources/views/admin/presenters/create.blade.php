@@ -207,6 +207,8 @@
                             配布資料1
                             @elseif($form['category_prefix'] == "kosyukai")
                             配布資料1
+                            @elseif($form['category_prefix'] == "touronkai")
+                            発表要旨（PDF形式）
                             @else
                             講演要旨
                             @endif
@@ -230,7 +232,9 @@
                             配布資料2
                             @elseif($form['category_prefix'] == "kosyukai")
                             配布資料2
-                             @else
+                            @elseif($form['category_prefix'] == "touronkai")
+                            プレゼン資料（PDF形式）
+                            @else
                             <span id="name1">フラッシュプレゼンテーションファイル</span>
                             @endif
                         </label>
@@ -253,6 +257,8 @@
                             配布資料3
                             @elseif($form['category_prefix'] == "kosyukai")
                             配布資料3
+                            @elseif($form['category_prefix'] == "touronkai")
+                            ポスター・配布資料
                             @else
                             <span id="name2">ポスター・配布資料等</span>
                             @endif
@@ -322,7 +328,7 @@
                 $("#name2").html("配布資料");
             }else{
                 $("#name1").html("プレゼンテーションファイル");
-                $("#name1").html("ポスター・配布資料等");
+                $("#name2").html("ポスター・配布資料等");
             }
         }
         changeReportName(event_id_input.val());

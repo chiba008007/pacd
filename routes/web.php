@@ -102,6 +102,11 @@ Route::group(['prefix' => '/', 'middlewere' => ['auth']], function () {
     //領収書請求書ダウンロード
     Route::get('/mypage/pdf/dispalyPdf/{filecode}', [\App\Http\Controllers\PDFController::class, 'dispalyPdf'])->name('member.join.dispalyPdf');
 
+    // 領収書ダウンロード
+    Route::get('/mypage/pdf/kyosanInvoice/{type}/{filecode}/{no}', [\App\Http\Controllers\PDFController::class, 'kyosanInvoice'])->name('member.kyosan.invoice');
+
+
+
     //一括ダウンロード
     Route::get('/zip/{event_id?}/{type?}/{date?}', [\App\Http\Controllers\Admin\ZipController::class, 'index'])->name('member.zip');
 
@@ -194,6 +199,8 @@ Route::group(['prefix' => config('admin.uri'), 'middleware' => 'auth:admin', 'as
     Route::post('/pages/url/setting', [\App\Http\Controllers\Admin\PagesController::class, 'urlsetting'])->name('pages.url.setting');
     Route::get('/pages/url/delete/{id?}', [\App\Http\Controllers\Admin\PagesController::class, 'delete'])->name('pages.url.delete');
 
+    Route::get('/pages/kyosan/', [\App\Http\Controllers\Admin\PagesController::class, 'kyosan'])->name('pages.kyosan');
+    Route::post('/pages/kyosan/', [\App\Http\Controllers\Admin\PagesController::class, 'kyosanSet'])->name('pages.kyosan.post');
 
 
     Route::get('/pages/inquire', [\App\Http\Controllers\Admin\PagesController::class, 'inquire'])->name('pages.inquire');

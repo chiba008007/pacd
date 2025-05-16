@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use App\Models\kyosanTitle;
 
 class UpdateController extends Controller
 {
@@ -54,7 +55,7 @@ class UpdateController extends Controller
         $set['inputs'] = FormInput::where(['form_type' => $this->form['key'], 'is_display_published' => true])->get();
         $set['event'] = $this->attendee->event;
         $set['user'] = Auth::user();
-
+        $set['kyosanTitle'] = kyosanTitle::first();
         return view('attendee.edit', $set);
     }
 
@@ -63,13 +64,12 @@ class UpdateController extends Controller
     {
         $this->checkAttendee();
         $rules['event_join_id'] = 'nullable|exists:event_joins,id';
-        if ($request->custom) {
-            // カスタムインプット項目がある場合、バリデーション実行
-            $rules['custom.*'] = new CustomFormDataRule();
+
+        if ($request->has('custom') && is_array($request->input('custom'))) {
+            $rules['custom.*'] = ['nullable', new CustomFormDataRule()];
         }
+
         $request->validate($rules);
-
-
 
         // データ更新
         DB::beginTransaction();
@@ -81,6 +81,19 @@ class UpdateController extends Controller
 
             $this->attendee->discountSelectFlag = $request->discountSelectFlag;
             $this->attendee->discountSelectText = $request->discountSelectText;
+
+            $this->attendee->tenjiSanka1Status = $request->tenjiSanka1Status;
+            $this->attendee->tenjiSanka1Name = $request->tenjiSanka1Name;
+            $this->attendee->tenjiSanka1Money = $request->tenjiSanka1Money;
+            $this->attendee->tenjiSanka2Status = $request->tenjiSanka2Status;
+            $this->attendee->tenjiSanka2Name = $request->tenjiSanka2Name;
+            $this->attendee->tenjiSanka2Money = $request->tenjiSanka2Money;
+            $this->attendee->konsinkaiSanka1Status = $request->konsinkaiSanka1Status;
+            $this->attendee->konsinkaiSanka1Name = $request->konsinkaiSanka1Name;
+            $this->attendee->konsinkaiSanka1Money = $request->konsinkaiSanka1Money;
+            $this->attendee->konsinkaiSanka2Status = $request->konsinkaiSanka2Status;
+            $this->attendee->konsinkaiSanka2Name = $request->konsinkaiSanka2Name;
+            $this->attendee->konsinkaiSanka2Money = $request->konsinkaiSanka2Money;
             
             $this->attendee->paydate = $request->paydate;
 

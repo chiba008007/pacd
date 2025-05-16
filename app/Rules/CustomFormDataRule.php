@@ -26,7 +26,18 @@ class CustomFormDataRule implements Rule
      */
     public function passes($attribute, $value)
     {
+
+        if (!is_array($value) || !isset($value['form_input_id'])) {
+            return false;
+        }
+
+
         $this->data = FormInput::find($value['form_input_id']);
+
+        if (!$this->data) {
+            return false;
+        }
+        $rules = [];
         if ($this->data) {
             // プルダウン、複数選択型の場合、データはIDで持つため必須のみチェック
             if (strpos($this->data->validation_rules, 'required') !== false) {
@@ -40,11 +51,13 @@ class CustomFormDataRule implements Rule
                     }
                 }
             }
+            
             // テキスト型の場合すべてのバリデーション実行
+            /*
             if ($this->data->type == config('pacd.form.input_type.text')) {
                 $rules['data.*'] = $this->data->validation_rules;
             }
-
+            */
             if (isset($rules)) {
                 return validator($value, $rules)->passes();
             }

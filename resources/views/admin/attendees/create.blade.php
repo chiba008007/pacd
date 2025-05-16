@@ -108,7 +108,11 @@
                         <label class="uk-form-label">参加料金</label>
                         <div class="uk-form-controls uk-form-controls-text">
                                 @foreach ($events as $event)
-                                    @php $joins = $event->event_joins->where('join_status', 1)->where('status', 1) @endphp
+                                    @php $joins = $event->event_joins
+                                    ->where('join_status', 1)
+                                    ->where('status', 1) 
+                                    ->whereIn('pattern', [1, 2])
+                                    @endphp
                                     <div id="joins_{{ $event->id }}" class="joins @if(!$loop->first) uk-hidden @endif">
                                         @if ($joins->count())
                                             @foreach ($joins as $join)
@@ -172,6 +176,111 @@
                             @enderror
                         </div>
                     </div>
+
+                    
+                    @if($category_prefix == "kyosan")
+                        <hr />
+                        <div>
+                            @php
+                            $i=1;
+                            @endphp
+                            @foreach ($events as $event)
+
+                                @php 
+                                $joins3 = $event->event_joins
+                                ->where('join_status', 1)
+                                ->where('status', 1) 
+                                ->where('pattern', 3) 
+                                ->where('event_id', $event->id)->first(); 
+                                $joins4 = $event->event_joins
+                                ->where('join_status', 1)
+                                ->where('status', 1) 
+                                ->where('pattern', 4) 
+                                ->where('event_id', $event->id)->first(); 
+                                @endphp
+                                <div class="uk-margin-top uk-hidden joinKyosan" id="joinsKyosan_{{ $event->id }}">
+                                    @if($i == 1 )
+                                        <div >
+                                            <p>展示参加者について</p>
+                                            <p>{{$kyosanTitle->tenjikaiTitle}}</p>
+                                            <p class="uk-margin-left">
+                                                {!! nl2br($kyosanTitle->tenjikaiNote) !!}
+                                            </p>
+                                            <p>{{$kyosanTitle->konsinkaiTitle}}</p>
+                                            <p class="uk-margin-left">
+                                                {!! nl2br($kyosanTitle->konsinkaiNote) !!}
+                                            </p>
+                                            
+                                            <br />
+                                            <br />
+                                        </div>
+                                    @endif
+                                    @if($joins3)
+                                    <p >{{$kyosanTitle->tenjikaiTitle}}</p>
+
+                                    <div class="uk-grid uk-child-width-auto uk-flex-middle" uk-grid>
+                                        <div>
+                                            <input type="checkbox" name="tenjiSanka1Status" value="on"  @if(old('tenjiSanka1Status')) checked @endif />
+                                        </div>
+                                        <div>
+                                            氏名1
+                                        </div>
+                                        <div class="uk-width-expand">
+                                            <input type="text" name="tenjiSanka1Name" value="{{@old('tenjiSanka1Name')}}"  class="uk-input uk-width-1-4" />
+                                            <input type="hidden" name="tenjiSanka1Money" value="{{$joins3['join_price']}}"  />
+                                            {{number_format($joins3['join_price'])}} 円
+                                        </div>
+                                    </div>
+                                    <div class="uk-grid uk-child-width-auto uk-flex-middle uk-margin-remove-top" uk-grid>
+                                        <div>
+                                            <input type="checkbox" name="tenjiSanka2Status" value="on" @if(old('tenjiSanka2Status')) checked @endif />
+                                        </div>
+                                        <div>
+                                            氏名2
+                                        </div>
+                                        <div class="uk-width-expand">
+                                            <input type="text" name="tenjiSanka2Name" value="{{@old('tenjiSanka2Name')}}" class="uk-input uk-width-1-4" />
+                                            <input type="hidden" name="tenjiSanka2Money" value="{{$joins3['join_price']}}" />
+                                            {{number_format($joins3['join_price'])}} 円
+                                        </div>
+                                    </div>
+                                    @endif
+                                    @if($joins4)
+                                    <p>{{$kyosanTitle->konsinkaiTitle}}</p>
+                                    <div class="uk-grid uk-child-width-auto uk-flex-middle" uk-grid>
+                                        <div>
+                                            <input type="checkbox" name="konsinkaiSanka1Status" value="on" @if(old('konsinkaiSanka1Status')) checked @endif />
+                                        </div>
+                                        <div>
+                                            氏名1
+                                        </div>
+                                        <div class="uk-width-expand">
+                                            <input type="text" name="konsinkaiSanka1Name" value="{{@old('konsinkaiSanka1Name')}}" class="uk-input uk-width-1-4" />
+                                            <input type="hidden" name="konsinkaiSanka1Money" value="{{$joins4['join_price']}}" /> 
+                                            {{number_format($joins4['join_price'])}} 円
+                                        </div>
+                                    </div>
+                                    <div class="uk-grid uk-child-width-auto uk-flex-middle uk-margin-remove-top" uk-grid>
+                                        <div>
+                                            <input type="checkbox" name="konsinkaiSanka2Status" value="on" @if(old('konsinkaiSanka2Status')) checked @endif/>
+                                        </div>
+                                        <div>
+                                            氏名2
+                                        </div>
+                                        <div class="uk-width-expand">
+                                            <input type="text" name="konsinkaiSanka2Name" value="{{@old('konsinkaiSanka2Name')}}" class="uk-input uk-width-1-4" />
+                                            <input type="hidden" name="konsinkaiSanka2Money" value="{{$joins4['join_price']}}" />
+                                            {{number_format($joins4['join_price'])}} 円
+                                        </div>
+                                    </div>
+                                    @endif
+                                </div>
+                            @php
+                                $i++;
+                            @endphp
+                            @endforeach
+                        </div>
+                    @endif
 
                     <div class="uk-margin">
                         <label class="uk-form-label">参加登録メール送信</label>
@@ -255,7 +364,9 @@
         // 参加料金表示切替
         let toggleJoins = function() {
             $(".joins").addClass('uk-hidden');
+            $(".joinKyosan").addClass('uk-hidden');
             $("#joins_" + event_id_input.val()).removeClass('uk-hidden');
+            $("#joinsKyosan_" + event_id_input.val()).removeClass('uk-hidden');
         }
 
         getUser();

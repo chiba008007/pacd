@@ -105,7 +105,7 @@
         <h3>{!! nl2br($event->sanka_explain) !!}</h3>
 
         @endif
-        @php $joins = $event->event_joins->where('join_status', 1)->where('status', 1) @endphp
+        @php $joins = $event->event_joins->where('join_status', 1)->where('status', 1)->whereIn('pattern', [1, 2]) @endphp
         @if ($joins->count())
             <div class="uk-margin">
                 <label for="event_join_id" class="uk-form-label">参加料金</label>
@@ -173,7 +173,95 @@
             </table>
         </div>
         @endif
-        
+
+        @if($form['prefix'] === "kyosan_attendee")
+            <hr />
+            <div>
+
+                @php 
+                $joins3 = $event->event_joins->where('join_status', 1)->where('status', 1)->whereIn('pattern', [3])->first();
+                $joins4 = $event->event_joins->where('join_status', 1)->where('status', 1)->whereIn('pattern', [4])->first();
+                
+                @endphp
+                @if($joins3 || $joins4)
+                    <p>展示参加者について</p>
+                    <p>{{$kyosanTitle->tenjikaiTitle}}</p>
+                    <p class="uk-margin-left">
+                        {!! nl2br($kyosanTitle->tenjikaiNote) !!}
+                    </p>
+                    <p>{{$kyosanTitle->konsinkaiTitle}}</p>
+                    <p class="uk-margin-left">
+                        {!! nl2br($kyosanTitle->konsinkaiNote) !!}
+                    </p>
+                    
+                    <br />
+                    <br />
+                @endif
+                
+                <div class="uk-margin-top " id="joinsKyosan_{{ $event->id }}">
+                    @if($joins3)
+                    <p >{{$kyosanTitle->tenjikaiTitle}}</p>
+
+                    <div class="uk-grid uk-child-width-auto uk-flex-middle" uk-grid>
+                        <div>
+                            <input type="checkbox" name="tenjiSanka1Status" value="on"  @if(old('tenjiSanka1Status')) checked @endif />
+                        </div>
+                        <div>
+                            氏名1
+                        </div>
+                        <div class="uk-width-expand">
+                            <input type="text" name="tenjiSanka1Name" value="{{@old('tenjiSanka1Name')}}"  class="uk-input uk-width-1-4" />
+                            <input type="hidden" name="tenjiSanka1Money" value="{{$joins3['join_price']}}"  />
+                            {{number_format($joins3['join_price'])}} 円
+                        </div>
+                    </div>
+                    <div class="uk-grid uk-child-width-auto uk-flex-middle uk-margin-remove-top" uk-grid>
+                        <div>
+                            <input type="checkbox" name="tenjiSanka2Status" value="on" @if(old('tenjiSanka2Status')) checked @endif />
+                        </div>
+                        <div>
+                            氏名2
+                        </div>
+                        <div class="uk-width-expand">
+                            <input type="text" name="tenjiSanka2Name" value="{{@old('tenjiSanka2Name')}}" class="uk-input uk-width-1-4" />
+                            <input type="hidden" name="tenjiSanka2Money" value="{{$joins3['join_price']}}"  />
+                            {{number_format($joins3['join_price'])}} 円
+                        </div>
+                    </div>
+                    @endif
+                    @if($joins4)
+                    <p>{{$kyosanTitle->konsinkaiTitle}}</p>
+                    <div class="uk-grid uk-child-width-auto uk-flex-middle" uk-grid>
+                        <div>
+                            <input type="checkbox" name="konsinkaiSanka1Status" value="on" @if(old('konsinkaiSanka1Status')) checked @endif />
+                        </div>
+                        <div>
+                            氏名1
+                        </div>
+                        <div class="uk-width-expand">
+                            <input type="text" name="konsinkaiSanka1Name" value="{{@old('konsinkaiSanka1Name')}}" class="uk-input uk-width-1-4" />
+                            <input type="hidden" name="konsinkaiSanka1Money" value="{{$joins4['join_price']}}"  />
+                            {{number_format($joins4['join_price'])}} 円
+                        </div>
+                    </div>
+                    <div class="uk-grid uk-child-width-auto uk-flex-middle uk-margin-remove-top" uk-grid>
+                        <div>
+                            <input type="checkbox" name="konsinkaiSanka2Status" value="on" @if(old('konsinkaiSanka2Status')) checked @endif/>
+                        </div>
+                        <div>
+                            氏名2
+                        </div>
+                        <div class="uk-width-expand">
+                            <input type="text" name="konsinkaiSanka2Name" value="{{@old('konsinkaiSanka2Name')}}" class="uk-input uk-width-1-4" />
+                            <input type="hidden" name="konsinkaiSanka2Money" value="{{$joins4['join_price']}}"  />
+                            {{number_format($joins4['join_price'])}} 円
+                        </div>
+                    </div>
+                    @endif
+                </div>
+
+            </div>
+        @endif
         @if (!isCurrent('admin.*'))
             <div class="uk-section-small uk-text-center">
                 <button type="submit" class="uk-button uk-button-primary bg-green">申し込み</button>

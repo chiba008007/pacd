@@ -124,6 +124,7 @@ textarea::-ms-input-placeholder {
                     <li class="uk-margin-left"><a href="{{ route('admin.pages.banner') }}"><span class="uk-margin-small-right uk-icon" uk-icon="move"></span>バナー管理</a></li>
                     <li class="uk-margin-left"><a href="{{ route('admin.pages.inquire') }}"><span class="uk-margin-small-right uk-icon" uk-icon="mail"></span>問合せ先アドレス</a></li>
                     <li class="uk-margin-left"><a href="{{ route('admin.pages.url') }}"><span class="uk-margin-small-right uk-icon" uk-icon="rss"></span>URL発行</a></li>
+                    <li class="uk-margin-left"><a href="{{ route('admin.pages.kyosan') }}"><span class="uk-margin-small-right uk-icon" uk-icon="social"></span>協賛企業説明文</a></li>
                     <li class="uk-nav-divider"></li>
                     <ul class="uk-margin-left uk-nav-sub">
                         @foreach (App\Models\Page::get()->toArray() as $page)

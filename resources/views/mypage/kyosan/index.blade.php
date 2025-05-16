@@ -37,8 +37,8 @@
 --}}
                         {{-- 参加料金を　無効にする　を選択した場合ダウンロードアイコンは見えなくする --}}
                         @if($attendee->event->join_enable == 1)
-                            <div class="uk-width-1-6@m" >
-                                @if($attendee->is_enabled_invoice == 1)
+                            @if($attendee->is_enabled_invoice == 1)
+                                <div class="uk-width-1-6@m" >
                                     @if($attendee->recipe_date)
                                         <button class="uk-button uk-button-default" disabled>領収書発行済</button>
                                     @else
@@ -47,13 +47,79 @@
                                         @else 請求書 @endif
                                         </a>
                                     @endif
-                                @endif
-                            </div>
+                                </div>
+                            @endif
                         @endif
+
+                        
                         <div class="uk-width-1-6@m">
                             <a href="{{ route('event.paper', $attendee->event->code) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap" target=_blank>参加証</a>
                         </div>
                     </div>
+
+                    @if(
+                        $attendee->tenjiSanka1Status || 
+                        $attendee->tenjiSanka2Status || 
+                        $attendee->konsinkaiSanka1Status || 
+                        $attendee->konsinkaiSanka2Status  
+                    )
+                    <div class="uk-grid-small " uk-grid>
+                        <div class="uk-width-1-3@m" >
+                            <div>▼ 参加者1</div>
+                            @php
+                            $disabled1 = false;
+                            $disabled2 = false;
+                            @endphp
+                            @if ($attendee->is_paid == 0 )
+                            @php
+                            $disabled1 = true;
+                            $disabled2 = false;
+                            @endphp
+                            @else
+                            @php
+                            $disabled1 = false;
+                            $disabled2 = true;
+                            @endphp
+                            @endif
+                            @if($attendee->tenjiSanka1Status)
+                                @if($disabled1)
+                                    <a href="{{ route('member.kyosan.invoice', ['type' => 'invoice', 'filecode' => $attendee->id, 'no'=>1]) }}" class="uk-button uk-button-default uk-background-muted" target="_blank" >参加費請求書</a>
+                                @endif
+                                @if($disabled2)
+                                    <a href="{{ route('member.kyosan.invoice', ['type' => 'recipe', 'filecode' => $attendee->id, 'no'=>1]) }}" class="uk-button uk-button-default" target="_blank" >参加費領収書</a>
+                                @endif
+                            @endif
+                            @if($attendee->konsinkaiSanka1Status)
+                                @if($disabled1)
+                                    <a href="{{ route('member.kyosan.invoice', ['type' => 'konshinkaiInvoice', 'filecode' => $attendee->id, 'no'=>1]) }}" class="uk-button uk-button-default uk-background-muted" target="_blank">懇親会請求書</a>
+                                @endif
+                                @if($disabled2)
+                                    <a href="{{ route('member.kyosan.invoice', ['type' => 'konshinkaiRecipe', 'filecode' => $attendee->id, 'no'=>1]) }}" class="uk-button uk-button-default uk-background-muted" target="_blank">懇親会領収書</a>
+                                @endif
+                            @endif
+                        </div>
+                        <div class="uk-width-1-2@m" >
+                            <div>▼ 参加者2</div>
+                            @if($attendee->tenjiSanka2Status)
+                                @if($disabled1)
+                                    <a href="{{ route('member.kyosan.invoice', ['type' => 'invoice', 'filecode' => $attendee->id, 'no'=>2]) }}" class="uk-button uk-button-default uk-background-muted" target="_blank">参加費請求書</a>
+                                @endif
+                                @if($disabled2)
+                                    <a href="{{ route('member.kyosan.invoice', ['type' => 'recipe', 'filecode' => $attendee->id, 'no'=>1]) }}" class="uk-button uk-button-default" target="_blank">参加費領収書</a>
+                                @endif
+                            @endif
+                            @if($attendee->konsinkaiSanka2Status)
+                                @if($disabled1)
+                                    <a href="{{ route('member.kyosan.invoice', ['type' => 'konshinkaiInvoice', 'filecode' => $attendee->id, 'no'=>2]) }}" class="uk-button uk-button-default uk-background-muted" target="_blank">懇親会請求書</a>
+                                @endif
+                                @if($disabled2)
+                                    <a href="{{ route('member.kyosan.invoice', ['type' => 'konshinkaiRecipe', 'filecode' => $attendee->id, 'no'=>2]) }}" class="uk-button uk-button-default uk-background-muted" target="_blank">懇親会領収書</a>
+                                @endif
+                            @endif
+                        </div>
+                    </div>
+                    @endif
+
                     @if ($attendee->presenters->count())
                         <table class="uk-table uk-table-responsive uk-table-small uk-text-center" id="presenter_menu_{{ $attendee->id }}" hidden>
                             <thead>

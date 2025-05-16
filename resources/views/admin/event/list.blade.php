@@ -55,7 +55,10 @@
                             @endif
                             <?php $top = ""; ?>
                             @if($category_prefix == "kyosan")
-                            <?php $top = "uk-margin-small-top"; ?>
+                            <?php 
+                                $str = "参加企業";
+                                $top = "uk-margin-small-top"; 
+                            ?>
                             @endif
                             <a class="<?=$top?> uk-button uk-button-primary uk-text-nowrap" href="{{ route("admin.attendees.index", [$category_prefix, 'code' => $event->code]) }}">{{$str}}</a>
                             @if($category_prefix != "kyosan")
@@ -96,7 +99,12 @@
                                 @php $checked[2] = "checked"; @endphp
                             @endif
                             <input type="checkbox" id="attendFlag-{{$event->id}}" class="onClick"  {{$checked[0]}} />
-                            <label for="attendFlag-{{$event->id}}" >参加者情報確認</label><br  />
+                            @if($category_prefix == 'kyosan')
+                                <label for="attendFlag-{{$event->id}}" >協賛企業情報確認</label>
+                            @else
+                                <label for="attendFlag-{{$event->id}}" >参加者情報確認</label>
+                            @endif                            
+                            <br  />
                             @if($category_prefix != 'kyosan')
                                 <input type="checkbox"  id="speakerFlag-{{$event->id}}" class="onClick" {{$checked[1]}} />
                                 <label for="speakerFlag-{{$event->id}}">講演申し込み</label><br />

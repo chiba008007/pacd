@@ -122,7 +122,19 @@ class KyosanController extends Controller
         // イベントタイプ
         $request->event_type = 2;
 
-
+        $join_status = $request->join_status;
+        $pattern = $request->pattern;
+        $counts = [];
+        foreach($join_status as $key=>$value){
+            if($value){
+                $counts[] = $pattern[$key];
+            }
+        }
+        $patternCount = array_count_values($counts);
+        
+        if($patternCount[3] > 1 || $patternCount[4] > 1){
+            return redirect()->back()->with('status', '企業協賛情報の登録に失敗しました。(展示参加費若しくは懇親会参加費が1つ以上選択されています。)');
+        }
         if(!$request->date_start) $request->date_start = $this->maxdate;
         if(!$request->date_end) $request->date_end = $this->maxdate;
 

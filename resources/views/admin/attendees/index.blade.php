@@ -104,7 +104,15 @@
 -->
                         <th class="uk-width-small">参加費</th>
                         <th class="uk-width-small">請求書</th>
-                        <th class="uk-width-small">ダウンロード</th>
+                        @if($event->category_type === 5 )
+                            <th class="uk-width-medium">ダウンロード</th>
+                        @else
+                            <th class="uk-width-small">ダウンロード</th>
+                        @endif
+                        @if($event->category_type === 5 )
+                            <th class="uk-width-large">参加者1</th>
+                            <th class="uk-width-large">参加者2</th>
+                        @endif
                         <th class="uk-width-small">領収書</th>
                         <th class="uk-width-small">参加受付</th>
                         <th class="uk-width-small">更新日</th>
@@ -172,9 +180,51 @@
                             </select>
                         </td>
                         <td>
-                            <a href="{{ route('member.join.pdf', $attendee->id."/".config('pacd.category.kosyukai.key'))."/".$attendee->user_id."/invoice" }}" class="uk-button uk-button-default" target=_blank>請求書</a>
-                            <a href="{{ route('member.join.pdf', $attendee->id."/".config('pacd.category.kosyukai.key'))."/".$attendee->user_id."/recipe" }}" class="uk-button uk-button-default" target=_blank>領収書</a>
+                            @php
+                                $invoiceText = "請求書";
+                                $recipeText = "領収書";
+                            @endphp
+                            @if($event->category_type === 5 )
+                            @php 
+                                $invoiceText = "請求書企業協賛";
+                                $recipeText = "請求書企業協賛";
+                            @endphp
+                            @endif
+                            <a href="{{ route('member.join.pdf', $attendee->id."/".config('pacd.category.kosyukai.key'))."/".$attendee->user_id."/invoice" }}" class="uk-button uk-button-default" target=_blank>{{$invoiceText}}</a>
+                            <a href="{{ route('member.join.pdf', $attendee->id."/".config('pacd.category.kosyukai.key'))."/".$attendee->user_id."/recipe" }}" class="uk-button uk-button-default" target=_blank>{{$recipeText}}</a>
                         </td>
+                        @if($event->category_type === 5 )
+                            <td class="uk-text-center">
+                                <div class="uk-flex uk-flex-middle uk-flex-row uk-flex-center">
+                                    @if($attendee->tenjiSanka1Status)
+                                        <a href="{{ route('member.kyosan.invoice', ['type' => 'invoice', 'filecode' => $attendee->id, 'no'=>1]) }}" class="uk-button uk-button-default" target="_blank">参加費請求書</a>　
+                                        <a href="{{ route('member.kyosan.invoice', ['type' => 'recipe', 'filecode' => $attendee->id, 'no'=>1]) }}" class="uk-button uk-button-default" target="_blank">参加費領収書</a>
+                                    @endif
+                                </div>
+                                <div class="uk-flex uk-flex-middle uk-flex-row uk-flex-center">
+                                    @if($attendee->konsinkaiSanka1Status)
+                                        <a href="{{ route('member.kyosan.invoice', ['type' => 'konshinkaiInvoice', 'filecode' => $attendee->id, 'no'=>1]) }}" class="uk-button uk-button-default" target="_blank">懇親会請求書</a>　
+                                        <a href="{{ route('member.kyosan.invoice', ['type' => 'konshinkaiRecipe', 'filecode' => $attendee->id, 'no'=>1]) }}" class="uk-button uk-button-default" target="_blank">懇親会領収書</a>
+                                    @endif
+                                </div>
+                            </td>
+                            <td class="uk-text-center">
+                                <div class="uk-flex uk-flex-middle uk-flex-row uk-flex-center">
+                                    @if($attendee->tenjiSanka2Status)
+                                        <a href="{{ route('member.kyosan.invoice', ['type' => 'invoice', 'filecode' => $attendee->id, 'no'=>2]) }}" class="uk-button uk-button-default" target="_blank">参加費請求書</a>　
+                                        <a href="{{ route('member.kyosan.invoice', ['type' => 'recipe', 'filecode' => $attendee->id, 'no'=>2]) }}" class="uk-button uk-button-default" target="_blank">参加費領収書</a>
+                                    @endif
+                                    
+                                </div>
+                                <div class="uk-flex uk-flex-middle uk-flex-row uk-flex-center">
+                                    @if($attendee->konsinkaiSanka2Status)
+                                        <a href="{{ route('member.kyosan.invoice', ['type' => 'konshinkaiInvoice', 'filecode' => $attendee->id, 'no'=>2]) }}" class="uk-button uk-button-default" target="_blank">懇親会請求書</a>　
+                                        <a href="{{ route('member.kyosan.invoice', ['type' => 'konshinkaiRecipe', 'filecode' => $attendee->id, 'no'=>2]) }}" class="uk-button uk-button-default" target="_blank">懇親会領収書</a>
+                                    @endif
+                                    
+                                </div>
+                            </td>
+                        @endif
                         <td>
                             <select class="uk-select is_recepe_status" name="recipe_status" id="recipe_status-{{$attendee->id}}">
                                 @foreach(config('pacd.recipe_status') as $k=>$val)

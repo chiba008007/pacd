@@ -59,6 +59,8 @@
                                 配布資料1
                             @elseif($form['category_prefix'] == "kosyukai")
                                 配布資料1
+                            @elseif($form['category_prefix'] == "touronkai")
+                                発表要旨（PDF形式）
                             @else
                                 講演要旨
                             @endif
@@ -93,6 +95,8 @@
                                 配布資料2
                             @elseif( $form[ 'category_prefix' ] == "touronkai" && $attendee->event_id == 238)
                                 プレゼンテーション資料
+                            @elseif( $form[ 'category_prefix' ] == "touronkai" )
+                                プレゼン資料（PDF形式）
                             @else
                                 フラッシュプレゼンテーションファイル
                             @endif

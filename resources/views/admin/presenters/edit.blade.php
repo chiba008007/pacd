@@ -222,6 +222,8 @@
                                     配布資料1
                                 @elseif($form['category_prefix'] == "kosyukai")
                                     配布資料1
+                                @elseif($form['category_prefix'] == "touronkai")
+                                発表要旨（PDF形式）
                                 @else
                                     講演要旨
                                 @endif
@@ -256,6 +258,8 @@
                                 @elseif($event_id == 238 && $form['category_prefix'] == "touronkai")
                                     {{--第28回高分子分析討論会のみ対応--}}
                                     プレゼンテーション資料
+                                @elseif($form['category_prefix'] == "touronkai")
+                                    プレゼン資料（PDF形式）
                                 @else
                                     フラッシュプレゼンテーションファイル
                                 @endif
@@ -291,6 +295,8 @@
                                 @elseif($event_id == 238 && $form['category_prefix'] == "touronkai")
                                     {{--第28回高分子分析討論会のみ対応--}}
                                     配布資料
+                                @elseif($form['category_prefix'] == "touronkai")
+                                    ポスター・配布資料等
                                 @else
                                     ポスター・配布資料等
                                 @endif
