@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Models\kyosanTitle;
-
+use App\Models\Event_join;
 class UpdateController extends Controller
 {
     private $form;
@@ -49,12 +49,25 @@ class UpdateController extends Controller
     public function edit($attendee_id)
     {
         $this->checkAttendee();
+
+        $event_joins = Event_join::
+            select(["pattern","event_id","join_price"])
+            ->where([
+                "event_id" => $this->attendee->event_id, "status" => 1, "join_status" => 1
+            ])->get();
+
+        $join_money = [];
+        foreach($event_joins as $value){
+            $join_money[$value->pattern] = $value;
+        }
+
         $set['attendee'] = $this->attendee;
         $set['form'] = $this->form;
         $set['title'] = $this->form['display_name'] . '情報編集';
         $set['inputs'] = FormInput::where(['form_type' => $this->form['key'], 'is_display_published' => true])->get();
         $set['event'] = $this->attendee->event;
         $set['user'] = Auth::user();
+        $set['join_money'] = $join_money;
         $set['kyosanTitle'] = kyosanTitle::first();
         return view('attendee.edit', $set);
     }
@@ -94,7 +107,7 @@ class UpdateController extends Controller
             $this->attendee->konsinkaiSanka2Status = $request->konsinkaiSanka2Status;
             $this->attendee->konsinkaiSanka2Name = $request->konsinkaiSanka2Name;
             $this->attendee->konsinkaiSanka2Money = $request->konsinkaiSanka2Money;
-            
+
             $this->attendee->paydate = $request->paydate;
 
             $this->attendee->save();
