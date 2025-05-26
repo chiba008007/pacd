@@ -307,12 +307,21 @@ class AttendeesController extends Controller
     // 参加者情報編集ページ表示
     public function edit($category_prefix, $id)
     {
-
+        $event_joins = Event_join::
+            select(["pattern","event_id","join_price"])
+            ->where([
+                "event_id" => $this->attendee->event_id, "status" => 1, "join_status" => 1
+            ])->get();
+        $join_money = [];
+        foreach($event_joins as $value){
+            $join_money[$value->pattern] = $value;
+        }
         $set = $this->getMeta();
         $set['title'] = $this->form['display_name'] . '編集';
         $set['attendee'] = $this->attendee;
         $set['user'] = $this->attendee->user;
         $set['event'] = $this->attendee->event;
+        $set['join_money'] = $join_money;
         $set['event_joins_status'] = $this->setJoinStatus($this->attendee->event_id);
         $set['kyosanTitle'] = kyosanTitle::first();
         $set['inputs'] = FormInput::where(['form_type' => $this->form['key']])->get();
@@ -367,7 +376,7 @@ class AttendeesController extends Controller
             if(!$request['tenjiSanka2Status']) $request['tenjiSanka2Status'] = "";
             if(!$request['konsinkaiSanka1Status']) $request['konsinkaiSanka1Status'] = "";
             if(!$request['konsinkaiSanka2Status']) $request['konsinkaiSanka2Status'] = "";
-            
+
             $this->attendee->fill($request->all());
             $this->attendee->save();
             if ($request->custom) {
@@ -516,7 +525,7 @@ class AttendeesController extends Controller
         if($postData[ 'id' ] === 'attendFlag' ) $record->attendFlag = ($postData[ 'val' ] == 'true')?1:0;
         if($postData[ 'id' ] === 'speakerFlag' ) $record->speakerFlag = ($postData[ 'val' ] == 'true')?1:0;
         if($postData[ 'id' ] === 'speakerMenuFlag' ) $record->speakerMenuFlag = ($postData[ 'val' ] == 'true')?1:0;
-        
+
         $record->save();
         echo json_encode(['success' => $postData]);
     }
@@ -552,7 +561,7 @@ class AttendeesController extends Controller
             $c = "講習会支払状況";
         }
 
-        
+
 
         // 参加料金区分を複数列に分ける
         // イベント名で絞り込みを行ったときのみ
@@ -572,7 +581,7 @@ class AttendeesController extends Controller
         }
 
         $header[] = "参加状況";
-        
+
 
         if ($this->category['prefix'] == "kyosan") {
             $header[] = "参加者氏名1";
@@ -597,7 +606,7 @@ class AttendeesController extends Controller
             $header2[] = "参加料金";
         }
         $header2[] = "参加状況";
-        
+
 
         if ($this->category['prefix'] == "kyosan") {
             $header2[] = "参加者氏名1";
@@ -642,7 +651,7 @@ class AttendeesController extends Controller
                 }
                 if (isset($data[$keys])) {
                     foreach ($data[$keys] as $key => $value) {
-                        
+
                         $num = sprintf('%010d', $value->event_number);
                         $clum = [];
 
@@ -787,7 +796,7 @@ class AttendeesController extends Controller
                         // $clum[] = implode(' ', $clumJP);
 
                         $clum[] = ($value->join_status == 0) ? "-" : "〇";
-                        
+
                         if ($this->category['prefix'] == "touronkai" || $this->category['prefix'] == "kosyukai") {
                             $clum[] = ($value->is_paid == 0) ? "未払い" : "支払済み";
                         }

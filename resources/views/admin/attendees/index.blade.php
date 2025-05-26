@@ -66,7 +66,7 @@
                     </button>
                 </div>
             </div>
-            
+
             {{-- ページネーション --}}
             <div id="pagers" class='uk-margin-top'>
                 {{ $attendees->appends(['search' => $search,'code'=>$code])->links() }}
@@ -85,7 +85,7 @@
                         <th class="uk-width-small">ログインID</th>
                         <th class="uk-width-small">氏名</th>
                         <th class="uk-width-small">氏名（ふりがな）</th>
-                        
+
                         <th class="uk-width-small">メールアドレス</th>
                         <th class="uk-width-small">法人名</th>
                         <th class="uk-width-small">所属列</th>
@@ -185,9 +185,9 @@
                                 $recipeText = "領収書";
                             @endphp
                             @if($event->category_type === 5 )
-                            @php 
+                            @php
                                 $invoiceText = "請求書企業協賛";
-                                $recipeText = "請求書企業協賛";
+                                $recipeText = "領収書企業協賛";
                             @endphp
                             @endif
                             <a href="{{ route('member.join.pdf', $attendee->id."/".config('pacd.category.kosyukai.key'))."/".$attendee->user_id."/invoice" }}" class="uk-button uk-button-default" target=_blank>{{$invoiceText}}</a>
@@ -214,14 +214,14 @@
                                         <a href="{{ route('member.kyosan.invoice', ['type' => 'invoice', 'filecode' => $attendee->id, 'no'=>2]) }}" class="uk-button uk-button-default" target="_blank">参加費請求書</a>　
                                         <a href="{{ route('member.kyosan.invoice', ['type' => 'recipe', 'filecode' => $attendee->id, 'no'=>2]) }}" class="uk-button uk-button-default" target="_blank">参加費領収書</a>
                                     @endif
-                                    
+
                                 </div>
                                 <div class="uk-flex uk-flex-middle uk-flex-row uk-flex-center">
                                     @if($attendee->konsinkaiSanka2Status)
                                         <a href="{{ route('member.kyosan.invoice', ['type' => 'konshinkaiInvoice', 'filecode' => $attendee->id, 'no'=>2]) }}" class="uk-button uk-button-default" target="_blank">懇親会請求書</a>　
                                         <a href="{{ route('member.kyosan.invoice', ['type' => 'konshinkaiRecipe', 'filecode' => $attendee->id, 'no'=>2]) }}" class="uk-button uk-button-default" target="_blank">懇親会領収書</a>
                                     @endif
-                                    
+
                                 </div>
                             </td>
                         @endif

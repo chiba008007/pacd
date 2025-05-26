@@ -119,7 +119,7 @@
 
                         @if ($event->discountFlag == 1)
                         <div class="uk-margin-small">
-                            
+
                             <label class="uk-form-label">割引率({{$event->discountRate}}%)</label>
                             <div class="uk-form-controls uk-form-controls-text">
                                 以下に参加された方はチェックを入れていただくと、今回の参加費が割引になります。<br />
@@ -173,7 +173,7 @@
                     <div>
                         @if ($event_joins_status[3] || $event_joins_status[4])
                         <p>展示参加者について</p>
-                        
+
                         <p>{{$kyosanTitle->tenjikaiTitle}}</p>
                         <p class="uk-margin-left">
                             {!! nl2br($kyosanTitle->tenjikaiNote) !!}
@@ -198,12 +198,12 @@
                                 </div>
                                 <div class="uk-width-expand">
                                     <input type="text" name="tenjiSanka1Name" value="{{$attendee->tenjiSanka1Name}}"  class="uk-input uk-width-1-4" />
-                                    <input type="hidden" name="tenjiSanka1Money" value="{{$attendee->tenjiSanka1Money}}"  />
-                                    {{number_format($attendee->tenjiSanka1Money)}}
+                                    <input type="hidden" name="tenjiSanka1Money" value="{{$join_money[3]->join_price}}"  />
+                                    {{number_format($join_money[3]->join_price)}}
                                     円
                                 </div>
                             </div>
-                            
+
                             <div class="uk-grid uk-child-width-auto uk-flex-middle uk-margin-remove-top" uk-grid>
                                 <div>
                                     <input type="checkbox" name="tenjiSanka2Status" value="on" @if($attendee->tenjiSanka2Status == 'on') checked @endif />
@@ -213,8 +213,8 @@
                                 </div>
                                 <div class="uk-width-expand">
                                     <input type="text" name="tenjiSanka2Name" value="{{$attendee->tenjiSanka2Name}}" class="uk-input uk-width-1-4" />
-                                    <input type="hidden" name="tenjiSanka2Money" value="{{$attendee->tenjiSanka2Money}}"  />
-                                    {{number_format($attendee->tenjiSanka2Money)}}
+                                    <input type="hidden" name="tenjiSanka2Money" value="{{$join_money[3]->join_price}}"  />
+                                    {{number_format($join_money[3]->join_price)}}
                                     円
                                 </div>
                             </div>
@@ -230,8 +230,8 @@
                                 </div>
                                 <div class="uk-width-expand">
                                     <input type="text" name="konsinkaiSanka1Name" value="{{$attendee->konsinkaiSanka1Name}}" class="uk-input uk-width-1-4" />
-                                    <input type="hidden" name="konsinkaiSanka1Money" value="{{$attendee->konsinkaiSanka1Money}}"  />
-                                    {{number_format($attendee->konsinkaiSanka1Money)}}
+                                    <input type="hidden" name="konsinkaiSanka1Money" value="{{$join_money[4]->join_price}}"  />
+                                    {{number_format($join_money[4]->join_price)}}
                                     円
                                 </div>
                             </div>
@@ -244,8 +244,8 @@
                                 </div>
                                 <div class="uk-width-expand">
                                     <input type="text" name="konsinkaiSanka2Name" value="{{$attendee->konsinkaiSanka2Name}}" class="uk-input uk-width-1-4" />
-                                    <input type="hidden" name="konsinkaiSanka2Money" value="{{$attendee->konsinkaiSanka2Money}}"  />
-                                    {{number_format($attendee->konsinkaiSanka2Money)}}
+                                    <input type="hidden" name="konsinkaiSanka2Money" value="{{$join_money[4]->join_price}}"  />
+                                    {{number_format($join_money[4]->join_price)}}
                                     円
                                 </div>
                             </div>
