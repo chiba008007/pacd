@@ -648,8 +648,8 @@ class PresentersController extends Controller
             ,"発表者6"
             ,"所属6"
             ,"備考"
-            
-            
+
+
             ,"発表概要","参加者番号","ID","会員種別","法人会員番号","法人名","郵便番号","法人住所","所属部署","担当者氏名","担当者氏名かな","担当者電話番号","担当者メールアドレス","メールアドレス公開"];
 
             $header[3] = ["参加イベント","発表番号","講演者番号","題目"
@@ -715,7 +715,7 @@ class PresentersController extends Controller
             ,"所属6"
             ,"備考"
             ,"発表概要","参加者番号","ID","会員種別","郵便番号","所属住所","所属","氏名","ふりがな","協賛学会所属の有無","電話番号","メールアドレス"];
-            
+
             $header[6] = ["参加イベント","発表番号","講演者番号","題目"
             ,"発表者1"
             ,"所属1"
@@ -742,7 +742,7 @@ class PresentersController extends Controller
             $header[1] = ["参加イベント","発表番号","講演者番号","講演内容","参加者番号","ID","会員種別","郵便番号","所属住所","所属","氏名","ふりがな","協賛学会所属の有無","電話番号","メールアドレス"];
 
             $header[5] = ["参加イベント","発表番号","講演者番号","題目","講演演者","所属","発表概要","参加者番号","ID","会員種別","郵便番号","所属住所","所属","氏名","ふりがな","協賛学会所属の有無","電話番号","メールアドレス"];
-            
+
             $header[6] = ["参加イベント","発表番号","講演者番号","題目","講演演者","所属","発表概要","参加者番号","ID","会員種別","郵便番号","所属住所","所属","氏名","ふりがな","協賛学会所属の有無","電話番号","メールアドレス"];
         }
 
@@ -780,7 +780,16 @@ class PresentersController extends Controller
                                 $clum[] = isset($presentation->$key2) ? htmlspecialchars($presentation->$key2):"";
                             }
                             $clum[] = isset($presentation->enjya_other) ? htmlspecialchars($presentation->enjya_other):"";
-                            $clum[] = isset($presentation->gaiyo) ? htmlspecialchars($presentation->gaiyo):"";
+                            /*
+                            $clum[] = isset($presentation->gaiyo) ? htmlspecialchars($presentation->gaiyo):"sssssssssss";
+                            */
+                            if(isset($presentation->gaiyo)){
+                                $clum[] = htmlspecialchars($presentation->gaiyo);
+                            }elseif(isset($presentation->enjya) ){
+                                $clum[] = htmlspecialchars($presentation->enjya);
+                            }else{
+                                $clum[] = "";
+                            }
                         }else{
                             $clum[] = isset($presentation->description) ? htmlspecialchars($presentation->description):"";
                         }

@@ -78,9 +78,9 @@
                                 </div>
                             </div>
                             <div>
-                                <div class="uk-form-label">発表演者</div>
+                                <div class="uk-form-label">発表概要</div>
                                 <div class="uk-form-controls uk-form-controls-text">
-                                    <textarea name="enjya" class="uk-textarea" rows="3" placeholder="記入例）〇山田 一郎,　鈴木次郎　（発表者に〇印　区切りはカンマ「,」" >{{ $presentation->enjya }}</textarea>
+                                    <textarea name="enjya" class="uk-textarea" rows="3" placeholder="簡潔に記載してください" >{{ $presentation->enjya }}</textarea>
                                 </div>
                             </div>
                             <div class="uk-margin">
