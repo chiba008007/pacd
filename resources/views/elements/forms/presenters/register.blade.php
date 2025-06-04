@@ -109,7 +109,7 @@
             <div>
                 <div class="uk-form-label">発表概要</div>
                 <div class="uk-form-controls uk-form-controls-text">
-                    <textarea name="gaiyo" class="uk-textarea" rows="3">{{ $event->gaiyo }}</textarea>
+                    <textarea name="gaiyo" class="uk-textarea" rows="3" placeholder="簡潔に記載してください" >{{ $event->gaiyo }}</textarea>
                 </div>
             </div>
 
