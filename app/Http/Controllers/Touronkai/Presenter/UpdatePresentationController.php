@@ -141,7 +141,7 @@ class UpdatePresentationController extends Controller
         $header.="Bcc:" .mb_encode_mimeheader("管理者") ."<".$admin.">";
         $pfrom = "-f$admin";
 
-        
+
         mb_send_mail($this->to , $this->title , $body,$header,$pfrom);
 
         return true;

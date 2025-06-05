@@ -77,12 +77,12 @@
                                     <textarea name="daimoku" class="uk-textarea" rows="3">{{ $presentation->daimoku }}</textarea>
                                 </div>
                             </div>
-                            <div>
+                            <!-- <div>
                                 <div class="uk-form-label">発表概要</div>
                                 <div class="uk-form-controls uk-form-controls-text">
                                     <textarea name="enjya" class="uk-textarea" rows="3" placeholder="簡潔に記載してください" >{{ $presentation->enjya }}</textarea>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="uk-margin">
                                 <label class="uk-form-label uk-text-left" for="description">
                                     発表者/所属
