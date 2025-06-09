@@ -110,7 +110,7 @@ class PDFController extends Controller
         // 検索用
         $filenamecode = date('ymdHis')."_".$user->login_id;
         $pdf->save($pdfpath  ."/search/". $filenamecode.".pdf");
-        
+
         // ローカルに保存したデータをDBに保持する
         $storageSet = [
             "user_id"=>$user->id,
@@ -129,7 +129,7 @@ class PDFController extends Controller
         //ブラウザ上に出力
         return $pdf->stream();
     }
-    
+
     public function kyosanInvoice($type,$filecode,$no)
     {
         $attend = Attendee::find($filecode);
@@ -140,13 +140,16 @@ class PDFController extends Controller
         if($no == 1) $name = $attend->tenjiSanka1Name;
         if($no == 2) $name = $attend->tenjiSanka2Name;
 
+        $event = Event::where("id", $attend->event_id)->first();
+
+
         $set = [];
         $set = [];
-        $set['bank_name'] = config('pacd.bank.name');
-        $set['bank_code'] =  config('pacd.bank.code');
-        $set['invoice_address'] = config('pacd.bank.invoice_address');
-        $set['invoice_memo'] = config('pacd.bank.invoice_memo');
-        $set['recipe_memo'] = config('pacd.bank.recipe_memo');
+        $set['bank_name'] = ($event->bank_name) ?? config('pacd.bank.name');
+        $set['bank_code'] =  ($event->bank_code) ??  config('pacd.bank.code');
+        $set['invoice_address'] = ($event->invoice_address) ??  config('pacd.bank.invoice_address');
+        $set['invoice_memo'] = ($event->invoice_memo) ?? config('pacd.bank.invoice_memo');
+        $set['recipe_memo'] =  ($event->recipe_memo) ?? config('pacd.bank.recipe_memo');
         $set['date'] = date("Y年m月d日");
         $set['cp_name'] = $user->cp_name." ".$name;
         $set['event_number'] = sprintf("%010d", $attend->event_number);
@@ -162,7 +165,7 @@ class PDFController extends Controller
             $price = ($no==1)?$attend->tenjiSanka1Money:$attend->tenjiSanka2Money;
             $pdffile = "recipeKyosan";
             $string = "展示参加者(討論会での発表無し)";
-            
+
         }
         if($type == "konshinkaiInvoice"){
             $price = ($no==1)?$attend->konsinkaiSanka1Money:$attend->konsinkaiSanka2Money;
@@ -179,10 +182,10 @@ class PDFController extends Controller
         $set['priceTax'] = number_format(floor(($price) * 10 / 110));
         $set['priceNoTax'] = number_format($price - floor(($price) * 10 / 110));
 
-        
+
         $pdf = PDF::loadView($pdffile, $set)->setPaper('a4', '');
 
-        return $pdf->download($pdffile.'.pdf'); 
+        return $pdf->download($pdffile.'.pdf');
     }
     //参加者用
     //$idはカテゴリータイプ
@@ -224,7 +227,7 @@ class PDFController extends Controller
             $event_join = Event_join::whereIn('id', $exp)->where('pattern',1)->get();
             $event_join2 = Event_join::whereIn('id', $exp)->where('pattern',2)->get();
         }else{
-            $event_join = Event_join::whereIn('id', $exp)->get();   
+            $event_join = Event_join::whereIn('id', $exp)->get();
         }
         // 消費税の計算
         foreach ($event_join as $key => $value) {
@@ -251,7 +254,7 @@ class PDFController extends Controller
                 $value->join_price = $value->join_price * ((100-$event->discountRate)/100);
             }
             $price += $value->join_price;
-           
+
         }
         foreach ($event_join2 as $key => $value) {
             if($attend->discountSelectFlag == 1 && $event->discountRate && $value->pattern == 1){
@@ -346,7 +349,7 @@ class PDFController extends Controller
         $filenamecode = preg_replace("/\*/","＊",$filenamecode);
 
         $pdf->save($pdfpath  ."/search/". $filenamecode.".pdf");
-        
+
         // ローカルに保存したデータをDBに保持する
         $storageSet = [
             "user_id"=>$user->id,
