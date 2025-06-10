@@ -159,23 +159,23 @@ class PDFController extends Controller
         if($type == "invoice"){
             $price = ($no==1)?$attend->tenjiSanka1Money:$attend->tenjiSanka2Money;
             $pdffile = "invoiceKyosan";
-            $string = "展示参加者(討論会での発表無し)";
+            $string = "展示参加(討論会での発表無し)";
         }
         if($type == "recipe"){
             $price = ($no==1)?$attend->tenjiSanka1Money:$attend->tenjiSanka2Money;
             $pdffile = "recipeKyosan";
-            $string = "展示参加者(討論会での発表無し)";
+            $string = "展示参加(討論会での発表無し)";
 
         }
         if($type == "konshinkaiInvoice"){
             $price = ($no==1)?$attend->konsinkaiSanka1Money:$attend->konsinkaiSanka2Money;
             $pdffile = "invoiceKyosan";
-            $string = "懇親会参加者(討論会での発表無し)";
+            $string = "懇親会参加(討論会での発表無し)";
         }
         if($type == "konshinkaiRecipe"){
             $price = ($no==1)?$attend->konsinkaiSanka1Money:$attend->konsinkaiSanka2Money;
             $pdffile = "recipeKyosan";
-            $string = "懇親会参加者(討論会での発表無し)";
+            $string = "懇親会参加(討論会での発表無し)";
         }
         $set['price'] = number_format($price);
         $set['string'] = $string;
