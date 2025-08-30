@@ -16,7 +16,7 @@ class PaperOutputController extends Controller
     {
         $this->middleware('auth');
     }
-    public function index(Request $request, $id)
+    public function index(Request $request, $id,$join=0)
     {
 
         $event = Event::where('code', $id)->first();
@@ -26,9 +26,10 @@ class PaperOutputController extends Controller
         $url = url('/') . "/" . config("admin.uri") . "/event/" . $id . "/joinstatus/" . $attendee->id . "/" . $event->id . "/" . $user->id;
         $set['event_number'] = sprintf("%010d", $attendee->event_number);
         $set['event'] = $event;
-        $set['user'] = $user;
-        $set['url'] = $url;
+        $set['user' ] = $user;
+        $set['url'  ] = $url;
         $set['attendee'] = $attendee;
+        $set['join' ] = $join;
         $set['ispaid'] = config('pacd.payment')[$attendee->is_paid];
         $pdf = PDF::loadView('paperoutput', $set)->setPaper('a4', '');
         return $pdf->stream();

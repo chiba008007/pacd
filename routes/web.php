@@ -113,7 +113,7 @@ Route::group(['prefix' => '/', 'middlewere' => ['auth']], function () {
     // Webex
     Route::get('/event/{id}/webex/{date?}', [\App\Http\Controllers\WebexController::class, 'index'])->name('event.webex');
     // 参加証
-    Route::get('/event/{id}/paperoutput', [\App\Http\Controllers\PaperOutputController::class, 'index'])->name('event.paper');
+    Route::get('/event/{id}/paperoutput/{join?}', [\App\Http\Controllers\PaperOutputController::class, 'index'])->name('event.paper');
 
     // 参加者・講演者管理
     foreach (config('pacd.category', ['']) as $prefix => $category) {
@@ -220,7 +220,7 @@ Route::group(['prefix' => config('admin.uri'), 'middleware' => 'auth:admin', 'as
 
     // 会員管理
     Route::resource('/members', \App\Http\Controllers\Admin\MembersController::class, ['except' => ['show']]);
-    
+
     Route::get('/members/password/check', [\App\Http\Controllers\Admin\MembersController::class, 'passwordcheck'])->name('members.password.check');
     Route::post('/members/password/check', [\App\Http\Controllers\Admin\MembersController::class, 'passwordchecked'])->name('members.password.checked');
 
@@ -229,7 +229,7 @@ Route::group(['prefix' => config('admin.uri'), 'middleware' => 'auth:admin', 'as
     Route::get('/members/{id}/payment', [\App\Http\Controllers\Admin\MembersController::class, 'payment'])->name('members.payment');
     Route::post('/members/{id}/payment/paymentupdate', [\App\Http\Controllers\Admin\MembersController::class, 'paymentupdateAjax'])->name('members.update.payment');
     Route::post('/members/{id}/payment/addyear', [\App\Http\Controllers\Admin\MembersController::class, 'addyear'])->name('members.update.payment.addyear');
-    
+
     Route::get('/members/{id}/payment/paymentupdate', [\App\Http\Controllers\Admin\MembersController::class, 'paymentupdateAjax'])->name('members.update.payment');
 
     Route::post('/members/invoiceDownloadAjax', [\App\Http\Controllers\Admin\MembersController::class, 'invoiceDownloadAjax'])->name('members.invoiceDownloadAjax');

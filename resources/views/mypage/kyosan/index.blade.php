@@ -22,7 +22,7 @@
                 <h4 class="uk-width-1-1 border-bottom">{{ $attendee->event->name }}</h4>
                 <div class="uk-margin-left">
                     <div class="uk-grid-small  uk-text-center" uk-grid>
-                        @if($attendee->event->attendFlag) 
+                        @if($attendee->event->attendFlag)
                         <div class="uk-width-1-6@m"><a href="{{ route('kyosan_attendee.edit', $attendee->id) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap">参加者情報変更</a></div>
                         @endif
                         @if($attendee->event->presenter_flag == 1)
@@ -51,20 +51,20 @@
                             @endif
                         @endif
 
-                        
+
                         <div class="uk-width-1-6@m">
                             <a href="{{ route('event.paper', $attendee->event->code) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap" target=_blank>参加証</a>
                         </div>
                     </div>
 
                     @if(
-                        $attendee->tenjiSanka1Status || 
-                        $attendee->tenjiSanka2Status || 
-                        $attendee->konsinkaiSanka1Status || 
-                        $attendee->konsinkaiSanka2Status  
+                        $attendee->tenjiSanka1Status ||
+                        $attendee->tenjiSanka2Status ||
+                        $attendee->konsinkaiSanka1Status ||
+                        $attendee->konsinkaiSanka2Status
                     )
                     <div class="uk-grid-small " uk-grid>
-                        <div class="uk-width-1-3@m" >
+                        <div class="uk-width-1-2@m" >
                             <div>▼ 参加者1</div>
                             @php
                             $disabled1 = false;
@@ -97,6 +97,10 @@
                                     <a href="{{ route('member.kyosan.invoice', ['type' => 'konshinkaiRecipe', 'filecode' => $attendee->id, 'no'=>1]) }}" class="uk-button uk-button-default uk-background-muted" target="_blank">懇親会領収書</a>
                                 @endif
                             @endif
+                            @if($attendee->tenjiSanka1Status)
+                                <a href="{{ route('event.paper', ['id' => $attendee->event->code, 'join' => 1]) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap" target="_blank">
+                                参加証</a>
+                            @endif
                         </div>
                         <div class="uk-width-1-2@m" >
                             <div>▼ 参加者2</div>
@@ -115,6 +119,10 @@
                                 @if($disabled2)
                                     <a href="{{ route('member.kyosan.invoice', ['type' => 'konshinkaiRecipe', 'filecode' => $attendee->id, 'no'=>2]) }}" class="uk-button uk-button-default uk-background-muted" target="_blank">懇親会領収書</a>
                                 @endif
+                            @endif
+                            @if($attendee->tenjiSanka2Status)
+                                <a href="{{ route('event.paper', ['id' => $attendee->event->code, 'join' => 2]) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap" target="_blank">
+                                参加証</a>
                             @endif
                         </div>
                     </div>

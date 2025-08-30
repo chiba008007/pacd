@@ -115,17 +115,25 @@
                 <div class="mt20 f18">
                     {{$event->name}}
                 </div>
-                
+
                 <div class="mt20 f18">
                     @if (!($user->type == 1 || $user->type == 4))
-                    {{$user->cp_name}}<br />
-                     @endif
-                    {{$user->busyo}}
+                        {{$user->cp_name}}<br />
+                    @endif
+                    @if (!$join)
+                        {{$user->busyo}}
+                    @endif
                 </div>
-               
+
                 <div class="mt20 f18">
-                    {{$user->sei}}
-                    {{$user->mei}}
+                    @if($join == 1)
+                        {{$attendee->tenjiSanka1Name}}
+                    @elseif($join == 2)
+                        {{$attendee->tenjiSanka2Name}}
+                    @else
+                        {{$user->sei}}
+                        {{$user->mei}}
+                    @endif
 
                 </div>
                 <div class="bottom">{{$event_number}}</div>
