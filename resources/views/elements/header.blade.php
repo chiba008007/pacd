@@ -180,13 +180,12 @@
                                                                 </a>
                                                             </div>
                                                             @endif
-                                                            @if(isset($kyosanCount) && $kyosanCount > 0 )
+
                                                             <div class="box pd10 uk-margin-small-top">
                                                                 <a href="{{ route('mypage.kyosan') }}" class="uk-button uk-button-default uk-text-small" style="width:100%;">
                                                                     {{ config('pacd.category.kyosan.name') }}
                                                                 </a>
                                                             </div>
-                                                            @endif
                                                         </td>
                                                     </tr>
 

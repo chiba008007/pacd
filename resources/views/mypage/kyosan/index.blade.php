@@ -52,9 +52,9 @@
                         @endif
 
 
-                        <div class="uk-width-1-6@m">
+                        <!-- <div class="uk-width-1-6@m">
                             <a href="{{ route('event.paper', $attendee->event->code) }}" class="uk-button uk-button-default ui uk-background-muted uk-text-nowrap" target=_blank>参加証</a>
-                        </div>
+                        </div> -->
                     </div>
 
                     @if(
