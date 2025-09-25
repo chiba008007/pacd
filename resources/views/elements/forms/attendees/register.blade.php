@@ -77,12 +77,26 @@
                 <div class="uk-form-controls uk-form-controls-text">{{ $user->tel }}</div>
             </div>
 
-        </fieldset>
-    </div>
-</div>
+    <form method="POST" action="{{ route($form['prefix'] . ".store", [$event->code]) }}" class="uk-form-horizontal" id="attendee_register_form">
+        @csrf
+            <div class="uk-margin-top">
+                <label class="uk-form-label" for="company_name">所属部署
+                    <span class="uk-label uk-label-danger uk-margin-small-left">必須</span>
+                </label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="company_name" type="text" name="company_name" value="{{ old('company_name', $user->busyo ?? '') }}" placeholder="例：▲▲大学　又は　●●株式会社" required>
+                </div>
+            </div>
 
-<form method="POST" action="{{ route($form['prefix'] . ".store", [$event->code]) }}" class="uk-form-horizontal" id="attendee_register_form">
-    @csrf
+            <div class="uk-margin-top">
+                <label class="uk-form-label" for="department">部門
+                    <span class="uk-label uk-label-danger uk-margin-small-left">必須</span>
+                </label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" id="department" type="text" name="department" value="{{ old('department', $user->bumon ?? '') }}" placeholder="例：■■部門　又は　部門なし" required>
+                </div>
+            </div>
+
     <fieldset class="uk-fieldset">
 
         @if($form['prefix'] === "kyosan_attendee")
