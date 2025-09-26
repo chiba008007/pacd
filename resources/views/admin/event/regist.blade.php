@@ -53,7 +53,7 @@
                     <tr>
                         <th>定員
                         </th>
-                        <td><input class="uk-input uk-form-width-small" type="number" name="capacity" placeholder="半角数字" value="{{old('capacity',$capacity ?? '')}}" min="1"></td>
+                        <td><input class="uk-input uk-form-width-small" type="number" name="capacity" placeholder="半角数字" value="{{old('capacity',$capacity ?? '')}}" min="1">定員なしの場合は未入力</td>
                     </tr>
                     @endif
                     @if($category_prefix != "kyosan")
