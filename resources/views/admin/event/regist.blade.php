@@ -49,6 +49,13 @@
 
                         </td>
                     </tr>
+                    @if($category_prefix == "kyosan")
+                    <tr>
+                        <th>定員
+                        </th>
+                        <td><input class="uk-input uk-form-width-small" type="number" name="capacity" placeholder="半角数字" value="{{old('capacity',$capacity ?? '')}}" min="1"></td>
+                    </tr>
+                    @endif
                     @if($category_prefix != "kyosan")
                         <tr>
                             <th>イベント概要
@@ -166,6 +173,11 @@
                         <th>会場
                         </th>
                         <td><input class="uk-input" type="text" name="place" placeholder="会場を入力してください" value="{{old('place',$place)}}"></td>
+                    </tr>
+                    <tr>
+                        <th>定員
+                        </th>
+                        <td><input class="uk-input uk-form-width-small" type="number" name="capacity" placeholder="半角数字" value="{{old('capacity',$capacity ?? '')}}" >定員なしの場合は未入力</td>
                     </tr>
                     @endif
                     @if($category_prefix != "kyosan")
@@ -426,5 +438,11 @@
         }
     }
 
+    // 定員が0以下にならないように制御
+    $('input[name="capacity"]').on('change', function() {
+        if ($(this).val() && $(this).val() < 1 || $(this).val() > 10000) {
+            $(this).val(''); // 1未満の場合は空にする
+        }
+    });
 </script>
 @endsection

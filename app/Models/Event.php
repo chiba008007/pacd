@@ -83,7 +83,7 @@ class Event extends Model
         //バリデーションの実施
         $request->validate(
             [
-                'code' => ['required', 'unique:events,code,' . $request->id . ',id', 'hankaku-check'], 'name' => ['required']
+                'code' => ['required', 'unique:events,code,' . $request->id . ',id', 'hankaku-check'], 'name' => ['required'], 'capacity' => ['nullable', 'integer', 'between:1,10000']
 
                 /*
             ,'date_start' => ['required',function($attribute, $value, $fail){
@@ -126,6 +126,7 @@ class Event extends Model
         $obj->date_end = $request->date_end;
         $obj->date_end_time = $request->date_end_time1 . ":" . $request->date_end_time2;
         $obj->place = $request->place;
+        $obj->capacity = $request->capacity; null;
         $obj->event_address = $request->event_address;
         $obj->party = $request->party;
         $obj->party_address = $request->party_address;
@@ -184,6 +185,7 @@ class Event extends Model
         $set['date_start_time2'] = ($date_start_time2) ?? "";
         $set['date_end_time2'] = ($date_end_time2) ?? "";
         $set['place'] = ($param->place) ?? "";
+        $set['capacity'] = ($param->capacity) ?? "";
         $set['event_address'] = ($param->event_address) ?? "";
         $set['party'] = ($param->party) ?? "";
         $set['party_address'] = ($param->party_address) ?? "";
