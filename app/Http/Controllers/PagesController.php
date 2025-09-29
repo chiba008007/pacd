@@ -97,4 +97,9 @@ class PagesController extends Controller
     }
 
     // ※ 参加者登録、講演者登録ページは Reikai|Touronkai|Kosyukai\Attendee\Register::createで表示
+        public function paymentSuccess()
+    {
+        $set['title'] = 'お支払い完了';
+        return view('pages.payment_success', $set);
+    }
 }

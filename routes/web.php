@@ -61,6 +61,9 @@ Route::group(['prefix' => '/'], function () {
     //お問い合わせフォーム
     Route::get('/inquire/', [\App\Http\Controllers\InquireController::class, 'index'])->name('inquire');
     Route::post('/inquire/', [\App\Http\Controllers\InquireController::class, 'send'])->name('inquire.send');
+
+    // 決済完了ページ
+    Route::get('/payment/success', [\App\Http\Controllers\PagesController::class, 'paymentSuccess'])->name('payment.success');
 });
 
 // ログイン中のみアクセス可
